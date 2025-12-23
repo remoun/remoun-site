@@ -1,0 +1,10 @@
+name = "remoun-oauth"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# After deploying, set your secrets:
+#   wrangler secret put GITHUB_CLIENT_ID
+#   wrangler secret put GITHUB_CLIENT_SECRET
+#
+# Then add a custom domain in Cloudflare dashboard if desired,
+# or use the workers.dev subdomain.

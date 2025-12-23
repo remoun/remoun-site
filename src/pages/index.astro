@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const recentPosts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const featuredProjects = (await getCollection('projects'))
+  .filter(p => p.data.featured)
+  .slice(0, 2);
+---
+
+<Base title="Remoun">
+  <section class="hero">
+    <h1>Hey, I'm Remoun</h1>
+    <p class="hero__subtitle">
+      Senior software engineer. I build things, break things, and occasionally write about it.
+    </p>
+    <div class="hero__links">
+      <a href="/blog">Read the blog</a>
+      <a href="/resume">See my work</a>
+    </div>
+  </section>
+
+  {recentPosts.length > 0 && (
+    <section class="home-section">
+      <h2>Recent writing</h2>
+      <ul class="post-list">
+        {recentPosts.map(post => (
+          <li class="post-item">
+            <h3 class="post-item__title">
+              <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+            </h3>
+            <p class="post-item__meta">
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </p>
+          </li>
+        ))}
+      </ul>
+      <p><a href="/blog">All posts →</a></p>
+    </section>
+  )}
+
+  {featuredProjects.length > 0 && (
+    <section class="home-section">
+      <h2>Featured work</h2>
+      <div class="portfolio-grid">
+        {featuredProjects.map(project => (
+          <a href={project.data.link || `/portfolio/${project.slug}`} class="portfolio-card">
+            {project.data.image && <img src={project.data.image} alt={project.data.title} />}
+            <div class="portfolio-card__content">
+              <h3 class="portfolio-card__title">{project.data.title}</h3>
+              <p class="portfolio-card__description">{project.data.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p style="margin-top: 1.5rem;"><a href="/portfolio">All projects →</a></p>
+    </section>
+  )}
+</Base>
+
+<style>
+  .hero {
+    padding: 2rem 0 3rem;
+  }
+
+  .hero h1 {
+    font-size: var(--size-3xl);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero__subtitle {
+    font-size: var(--size-lg);
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    max-width: 32rem;
+  }
+
+  .hero__links {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .hero__links a {
+    font-family: var(--font-display);
+  }
+
+  .home-section {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .home-section h2 {
+    font-size: var(--size-base);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+</style>

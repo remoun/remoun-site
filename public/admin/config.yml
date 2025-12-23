@@ -1,0 +1,46 @@
+# Decap CMS Configuration
+# Docs: https://decapcms.org/docs/configuration-options/
+
+backend:
+  name: github
+  repo: remoun/remoun-site  # Update to your repo
+  branch: main
+  base_url: https://oauth.decapcms.org  # Decap's hosted OAuth proxy
+
+# Local development: uncomment to test without auth
+# local_backend: true
+
+# Media files
+media_folder: public/images
+public_folder: /images
+
+# Content collections
+collections:
+  - name: posts
+    label: Blog Posts
+    folder: src/content/posts
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: string }
+      - { label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Updated, name: updated, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { label: Draft, name: draft, widget: boolean, default: false }
+      - { label: Tags, name: tags, widget: list, default: [] }
+      - { label: Body, name: body, widget: markdown }
+
+  - name: projects
+    label: Portfolio Projects
+    folder: src/content/projects
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: string }
+      - { label: Date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: External Link, name: link, widget: string, required: false }
+      - { label: Tags, name: tags, widget: list, default: [] }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Body, name: body, widget: markdown }

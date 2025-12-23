@@ -1,0 +1,57 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const projects = (await getCollection('projects'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Base title="Portfolio | Remoun" description="Projects and work.">
+  <h1>Portfolio</h1>
+  <p class="page-intro">Selected projects and experiments.</p>
+
+  <div class="portfolio-grid">
+    {projects.map(project => (
+      <a 
+        href={project.data.link || `/portfolio/${project.slug}`} 
+        class="portfolio-card"
+        target={project.data.link ? '_blank' : undefined}
+        rel={project.data.link ? 'noopener' : undefined}
+      >
+        {project.data.image && <img src={project.data.image} alt={project.data.title} />}
+        <div class="portfolio-card__content">
+          <h2 class="portfolio-card__title">{project.data.title}</h2>
+          <p class="portfolio-card__description">{project.data.description}</p>
+          {project.data.tags.length > 0 && (
+            <div class="tags" style="margin-top: 0.75rem;">
+              {project.data.tags.map(tag => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )}
+        </div>
+      </a>
+    ))}
+  </div>
+
+  {projects.length === 0 && (
+    <p class="empty-state">No projects yet. Check back soon!</p>
+  )}
+</Base>
+
+<style>
+  .page-intro {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+  }
+
+  .empty-state {
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .portfolio-card {
+    text-decoration: none;
+    color: inherit;
+  }
+</style>

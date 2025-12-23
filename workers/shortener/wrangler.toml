@@ -1,0 +1,13 @@
+name = "remoun-shortener"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# Custom domain - configure this in Cloudflare dashboard after first deploy
+# routes = [
+#   { pattern = "remoun.to/*", zone_name = "remoun.to" }
+# ]
+
+# Uncomment to use KV for dynamic redirects later:
+# [[kv_namespaces]]
+# binding = "REDIRECTS"
+# id = "your-kv-namespace-id"
