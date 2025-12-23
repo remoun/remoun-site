@@ -1,0 +1,305 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Date Me: Remoun" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta name="robots" content="noindex" />
+  <title>{title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page-wrapper">
+    <main class="content">
+      <slot />
+    </main>
+    
+    <footer class="site-footer">
+      <p>Last updated: December 2024</p>
+    </footer>
+  </div>
+</body>
+</html>
+
+<style is:global>
+  :root {
+    /* Warm sunset palette */
+    --bg: #fdf8f5;
+    --bg-card: #fff9f5;
+    --text: #2d2a26;
+    --text-secondary: #6b635a;
+    --accent: #d4726a;
+    --accent-hover: #c45d54;
+    --accent-soft: #f3d5d1;
+    --border: #e8ddd6;
+    --highlight: #ffeee8;
+    
+    /* Typography */
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Outfit', system-ui, sans-serif;
+    
+    --size-sm: 0.9rem;
+    --size-base: 1.1rem;
+    --size-lg: 1.4rem;
+    --size-xl: 1.8rem;
+    --size-2xl: 2.4rem;
+    --size-3xl: 3rem;
+    
+    --max-width: 44rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1f1d1b;
+      --bg-card: #292624;
+      --text: #f0ebe6;
+      --text-secondary: #a8a099;
+      --accent: #e8928a;
+      --accent-hover: #f0a9a2;
+      --accent-soft: #3d302e;
+      --border: #3a3532;
+      --highlight: #342a28;
+    }
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--bg);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    flex: 1;
+  }
+
+  /* Typography */
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0 0 1rem;
+  }
+
+  h1 {
+    font-size: var(--size-3xl);
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+
+  h2 {
+    font-size: var(--size-xl);
+    margin-top: 3rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--accent-soft);
+  }
+
+  h3 {
+    font-size: var(--size-lg);
+    margin-top: 2rem;
+  }
+
+  p {
+    margin: 0 0 1.25rem;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 2px;
+    transition: color 0.15s ease;
+  }
+
+  a:hover {
+    color: var(--accent-hover);
+  }
+
+  /* Intro section */
+  .intro {
+    text-align: center;
+    padding: 2rem 0 3rem;
+  }
+
+  .intro h1 {
+    font-size: var(--size-2xl);
+  }
+
+  .intro-greeting {
+    font-size: var(--size-lg);
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .intro-tagline {
+    font-family: var(--font-display);
+    font-size: var(--size-xl);
+    font-style: italic;
+    color: var(--text-secondary);
+    max-width: 28rem;
+    margin: 0 auto 1.5rem;
+    line-height: 1.4;
+  }
+
+  .basics {
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+    letter-spacing: 0.02em;
+  }
+
+  /* CTA button */
+  .cta-button {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--size-base);
+    font-weight: 500;
+    color: white;
+    background: var(--accent);
+    padding: 0.75rem 1.75rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    margin-top: 1.5rem;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+
+  .cta-button:hover {
+    background: var(--accent-hover);
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  /* Fun fact callout */
+  .fun-fact {
+    background: var(--highlight);
+    border-left: 4px solid var(--accent);
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+    border-radius: 0 8px 8px 0;
+    font-size: var(--size-base);
+  }
+
+  .fun-fact .emoji {
+    font-size: 1.5rem;
+    margin-left: 0.5rem;
+  }
+
+  /* Section content */
+  .section-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .section-content li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-content li:last-child {
+    border-bottom: none;
+  }
+
+  .section-content li strong {
+    color: var(--text);
+  }
+
+  /* Testimonials */
+  .testimonials {
+    margin: 3rem 0;
+  }
+
+  .testimonial {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .testimonial p {
+    margin: 0;
+    font-style: italic;
+  }
+
+  .testimonial-author {
+    margin-top: 1rem;
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+    font-style: normal;
+  }
+
+  /* Dealbreakers */
+  .dealbreakers {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .dealbreakers h3 {
+    margin-top: 0;
+    color: var(--text-secondary);
+  }
+
+  .dealbreakers ul {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .dealbreakers li {
+    padding: 0.25rem 0;
+    border: none;
+  }
+
+  /* Footer */
+  .site-footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    h1 { font-size: var(--size-2xl); }
+    h2 { font-size: var(--size-lg); }
+    .intro-tagline { font-size: var(--size-lg); }
+    .content { padding: 2rem 1rem; }
+  }
+</style>

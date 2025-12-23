@@ -77,6 +77,17 @@ For `remoun.tech` → `remoun.dev`, add a redirect rule in Cloudflare:
 4. Then: Dynamic redirect to `https://remoun.dev${http.request.uri.path}`
 5. Status code: 301
 
+### remoun.love (Date Me Page)
+
+The `/love` page has its own layout and styling. To serve it at `remoun.love`:
+
+1. Add `remoun.love` as a custom domain in Cloudflare Pages (same as other domains)
+2. The `functions/_middleware.js` handles the routing:
+   - Requests to `remoun.love/` serve the `/love` page
+   - Other domains serve content normally
+
+The middleware runs at the edge, so there's no redirect — visitors see `remoun.love` in their browser.
+
 ## Adding Content
 
 ### Blog Posts
@@ -89,7 +100,7 @@ title: "Post Title"
 description: "Brief description for previews and SEO."
 date: 2024-12-25
 tags: [tag1, tag2]
-draft: false  # Set true to hide from listings
+draft: false # Set true to hide from listings
 ---
 
 Your content here...
@@ -104,10 +115,10 @@ Create `src/content/projects/project-slug.md`:
 title: "Project Name"
 description: "What it does."
 date: 2024-12-25
-image: "/images/project-screenshot.png"  # optional
-link: "https://github.com/..."            # optional external link
+image: "/images/project-screenshot.png" # optional
+link: "https://github.com/..." # optional external link
 tags: [tech, stack]
-featured: true  # Shows on homepage
+featured: true # Shows on homepage
 ---
 
 Longer description...
@@ -139,6 +150,7 @@ The site includes Decap CMS at `/admin` for editing posts and projects from your
 ### Setup
 
 1. **Register your OAuth app with GitHub:**
+
    - Go to GitHub → Settings → Developer settings → OAuth Apps → New OAuth App
    - Application name: `remoun-site` (or whatever)
    - Homepage URL: `https://remoun.dev`
@@ -146,11 +158,13 @@ The site includes Decap CMS at `/admin` for editing posts and projects from your
    - Save your Client ID and Client Secret
 
 2. **Register with Decap's OAuth service:**
+
    - Go to https://oauth.decapcms.org/
    - Add your GitHub OAuth app credentials
    - This proxies the OAuth flow so you don't need to run your own server
 
 3. **Update the config** (if needed):
+
    - Edit `public/admin/config.yml`
    - Change `repo: remoun/remoun-site` to match your GitHub username/repo
 
