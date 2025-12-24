@@ -21,4 +21,5 @@ I didn't want to maintain multiple repos or deployments. I wanted to write Markd
 ## The stack
 
 - **Astro** — Static site generator, content collections for blog posts and portfolio items
+- **Novel** - Notion-style WYSIWYG editor with AI-powered autocomplete
 - **Cloudflare Pages** — Hosting, automatic deploys from GitHub

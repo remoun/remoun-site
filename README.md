@@ -98,7 +98,7 @@ Create `src/content/posts/your-slug.md`:cl
 ---
 title: "Post Title"
 description: "Brief description for previews and SEO."
-date: 2024-12-25
+date: 2025-12-25
 tags: [tag1, tag2]
 draft: false # Set true to hide from listings
 ---
@@ -114,7 +114,7 @@ Create `src/content/projects/project-slug.md`:
 ---
 title: "Project Name"
 description: "What it does."
-date: 2024-12-25
+date: 2025-12-25
 image: "/images/project-screenshot.png" # optional
 link: "https://github.com/..." # optional external link
 tags: [tech, stack]
