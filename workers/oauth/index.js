@@ -1,12 +1,13 @@
 /**
- * Decap CMS OAuth Proxy for GitHub
- * 
+ * GitHub OAuth Proxy for Decap CMS and Custom Admin
+ *
  * Deploy this worker and set these secrets:
  *   wrangler secret put GITHUB_CLIENT_ID
  *   wrangler secret put GITHUB_CLIENT_SECRET
- * 
- * Then update public/admin/config.yml:
- *   base_url: https://your-oauth-worker.your-subdomain.workers.dev
+ *
+ * Endpoints:
+ *   /auth - Start OAuth flow (works for both Decap CMS and custom admin)
+ *   /callback - OAuth callback
  */
 
 const GITHUB_AUTHORIZE_URL = 'https://github.com/login/oauth/authorize';
@@ -41,7 +42,7 @@ export default {
     // /callback - Exchange code for token
     if (url.pathname === '/callback') {
       const code = url.searchParams.get('code');
-      
+
       if (!code) {
         return new Response('Missing code parameter', { status: 400 });
       }
@@ -66,6 +67,7 @@ export default {
       }
 
       // Return HTML that posts the token back to the opener window
+      // Supports both Decap CMS format and custom admin format
       const html = `<!DOCTYPE html>
 <html>
 <head><title>OAuth Complete</title></head>
@@ -74,12 +76,20 @@ export default {
   (function() {
     const token = ${JSON.stringify(tokenData.access_token)};
     const provider = 'github';
-    
+
     if (window.opener) {
+      // Send to custom admin (simple format)
+      window.opener.postMessage(
+        { type: 'github_oauth', token: token },
+        '*'
+      );
+
+      // Also send Decap CMS format for backwards compatibility
       window.opener.postMessage(
         'authorization:' + provider + ':success:' + JSON.stringify({ token, provider }),
         '*'
       );
+
       window.close();
     }
   })();
@@ -95,7 +105,7 @@ export default {
 
     // Default: show usage
     return new Response(
-      'Decap CMS OAuth Proxy\n\nEndpoints:\n  /auth - Start OAuth flow\n  /callback - OAuth callback',
+      'GitHub OAuth Proxy\n\nEndpoints:\n  /auth - Start OAuth flow\n  /callback - OAuth callback',
       { status: 200 }
     );
   },

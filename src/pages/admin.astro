@@ -1,0 +1,49 @@
+---
+// Admin page - client-side React app for managing blog posts
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Admin | remoun.*</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-stone-50 text-stone-900 min-h-screen">
+    <div id="admin-root"></div>
+    <script>
+      // Handle OAuth callback - extract token from URL hash
+      if (window.location.hash) {
+        const params = new URLSearchParams(window.location.hash.slice(1));
+        const token = params.get('access_token');
+        if (token) {
+          localStorage.setItem('github_token', token);
+          window.history.replaceState({}, '', window.location.pathname);
+        }
+      }
+
+      // Handle postMessage from OAuth popup
+      window.addEventListener('message', (event) => {
+        if (event.data?.type === 'github_oauth' && event.data?.token) {
+          localStorage.setItem('github_token', event.data.token);
+          window.location.reload();
+        }
+      });
+    </script>
+    <script>
+      import { Admin } from '../components/Admin';
+      import { createRoot } from 'react-dom/client';
+      import { createElement } from 'react';
+
+      const root = createRoot(document.getElementById('admin-root')!);
+      root.render(createElement(Admin));
+    </script>
+  </body>
+</html>

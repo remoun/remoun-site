@@ -92,7 +92,7 @@ The middleware runs at the edge, so there's no redirect — visitors see `remoun
 
 ### Blog Posts
 
-Create `src/content/posts/your-slug.md`:
+Create `src/content/posts/your-slug.md`:cl
 
 ```markdown
 ---
