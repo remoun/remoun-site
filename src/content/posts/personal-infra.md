@@ -1,11 +1,11 @@
 ---
 title: "Building my personal infrastructure in an afternoon"
 description: "From buying remoun.* to a fully deployed multi-domain site in a few hours."
-date: 2025-12-23
+date: 2025-12-24
 tags: [meta, astro, cloudflare, ai]
 ---
 
-This morning I bought a bunch of `remoun.*` domains. By evening, I had a fully deployed personal infrastructure: blog, landing page, URL shortener, and a separate dating page — all from one repo.
+Yesterday morning I bought a bunch of `remoun.*` domains. By evening, I had a fully deployed personal infrastructure: blog, landing page, URL shortener, and a separate dating page — all from one repo.
 
 The whole thing took an afternoon. And it was surprisingly fun!
 
