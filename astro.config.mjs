@@ -1,14 +1,19 @@
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: 'https://remoun.me',
-  integrations: [react(), tailwind()],
+  integrations: [react()],
+
   markdown: {
     shikiConfig: {
       theme: 'github-dark',
       wrap: true
     }
+  },
+
+  vite: {
+    plugins: [tailwindcss()]
   }
 });

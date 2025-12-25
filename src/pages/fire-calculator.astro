@@ -1,0 +1,300 @@
+---
+import Layout from '../layouts/Tool.astro';
+import FIRECalculator from '../components/FIRECalculator.jsx';
+---
+
+<Layout title="FIRE Lifestyle Calculator | Die With Zero vs Traditional">
+  <div class="tool-page">
+    <!-- Header -->
+    <header class="tool-header">
+      <h1>FIRE Lifestyle Calculator</h1>
+      <p>
+        Compare two retirement philosophies: preserve your wealth forever,
+        or deploy it deliberately for maximum life impact.
+      </p>
+    </header>
+
+    <!-- Concepts Explainer -->
+    <section class="concept-grid">
+      <div class="concept-card">
+        <h2><span>📊</span> Traditional FIRE</h2>
+        <p>
+          <strong>Financial Independence, Retire Early.</strong> Save 25x your annual expenses,
+          then withdraw 4% per year—statistically safe for 30+ year retirements.
+          The goal: never run out of money. The risk: dying with millions unspent.
+        </p>
+      </div>
+
+      <div class="concept-card concept-card--highlight">
+        <h2><span>🎯</span> Die With Zero</h2>
+        <p>
+          <strong>From Bill Perkins' book.</strong> Your net worth should peak, then deliberately decline.
+          Every dollar unspent is a missed experience or ungiven gift.
+          The goal: maximize life, not account balances. The risk: running out too soon.
+        </p>
+      </div>
+    </section>
+
+    <!-- Key Concepts -->
+    <section class="key-concepts">
+      <h2>Key Concepts in This Calculator</h2>
+      <div class="key-concepts__grid">
+        <div>
+          <h3>Spending Smile</h3>
+          <p>Spending typically drops 15-25% in your 60s-70s (less travel, simpler needs), then rises again for healthcare in your 80s.</p>
+        </div>
+        <div>
+          <h3>Side Income</h3>
+          <p>Part-time consulting, projects, or passion work. Even $10-20K/year dramatically extends portfolio life.</p>
+        </div>
+        <div>
+          <h3>Giving While Living</h3>
+          <p>Front-load giving when you can see the impact. Help family in their 30s, not their 60s. Give to causes while you're engaged.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculator -->
+    <section class="calculator-section">
+      <FIRECalculator client:load />
+    </section>
+
+    <!-- Assumptions & Caveats -->
+    <section class="caveats">
+      <h2>Assumptions & Caveats</h2>
+      <ul>
+        <li>Returns are constant (reality: sequence of returns risk matters)</li>
+        <li>Inflation assumed at 2.5% annually</li>
+        <li>Social Security starts at 67 (adjust SS Haircut for uncertainty)</li>
+        <li>Spending smile: 100% → 85% → 75% → 110% across life phases</li>
+        <li>Giving phases out: 100% → 70% → 30% as you age</li>
+        <li>No taxes modeled (consider Roth conversions, capital gains strategies)</li>
+        <li>Healthcare costs simplified into spending smile</li>
+      </ul>
+      <p class="caveats__note">
+        This is a thinking tool, not financial advice. Reality has more variables.
+        Consider working with a fee-only financial planner for your actual plan.
+      </p>
+    </section>
+
+    <!-- Resources -->
+    <section class="resources">
+      <h2>Learn More</h2>
+      <div class="resources__grid">
+        <a href="https://www.diewithzerobook.com/" target="_blank" rel="noopener">
+          <div class="resources__title">Die With Zero</div>
+          <div class="resources__subtitle">Bill Perkins' book</div>
+        </a>
+        <a href="https://www.mrmoneymustache.com/2012/05/29/how-much-do-i-need-for-retirement/" target="_blank" rel="noopener">
+          <div class="resources__title">The 4% Rule</div>
+          <div class="resources__subtitle">Mr. Money Mustache</div>
+        </a>
+        <a href="https://earlyretirementnow.com/safe-withdrawal-rate-series/" target="_blank" rel="noopener">
+          <div class="resources__title">Safe Withdrawal Rates</div>
+          <div class="resources__subtitle">Early Retirement Now (deep dive)</div>
+        </a>
+        <a href="https://www.bogleheads.org/wiki/Retirement_spending" target="_blank" rel="noopener">
+          <div class="resources__title">Retirement Spending</div>
+          <div class="resources__subtitle">Bogleheads Wiki</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer Note -->
+    <footer class="tool-footer">
+      <p>Built for exploration, not advice. Your mileage will vary.</p>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .tool-page {
+    padding: 1rem 0;
+  }
+
+  .tool-header {
+    margin-bottom: 2rem;
+  }
+
+  .tool-header h1 {
+    font-family: var(--font-display);
+    font-size: var(--size-3xl);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .tool-header p {
+    font-size: var(--size-base);
+    color: var(--text-secondary);
+    max-width: 40rem;
+  }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .concept-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .concept-card--highlight {
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+  }
+
+  .concept-card h2 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .concept-card p {
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .key-concepts {
+    background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, var(--border));
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .key-concepts h2 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+    color: var(--text);
+  }
+
+  .key-concepts__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .key-concepts h3 {
+    font-family: var(--font-display);
+    font-size: var(--size-sm);
+    font-weight: 600;
+    margin: 0 0 0.25rem;
+  }
+
+  .key-concepts p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .calculator-section {
+    margin-bottom: 3rem;
+  }
+
+  .caveats {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .caveats h2 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+  }
+
+  .caveats ul {
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+    padding-left: 1.25rem;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .caveats li {
+    margin-bottom: 0.25rem;
+  }
+
+  .caveats__note {
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+    font-style: italic;
+    margin: 1rem 0 0;
+    opacity: 0.8;
+  }
+
+  .resources {
+    margin-bottom: 2rem;
+  }
+
+  .resources h2 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+  }
+
+  .resources__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .resources a {
+    display: block;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    text-decoration: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .resources a:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .resources__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--text);
+    font-size: var(--size-sm);
+  }
+
+  .resources__subtitle {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+  }
+
+  .tool-footer {
+    text-align: center;
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    opacity: 0.7;
+  }
+
+  .tool-footer p {
+    margin: 0;
+  }
+</style>
