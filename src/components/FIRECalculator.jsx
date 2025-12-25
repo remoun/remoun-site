@@ -236,10 +236,10 @@ export default function FIRECalculator() {
             </h2>
 
             <Slider label="Current Age" value={currentAge} onChange={setCurrentAge}
-              min={22} max={55} step={1} format={(v) => `${v}`} />
+              min={22} max={65} step={1} format={(v) => `${v}`} />
 
             <Slider label="Current Portfolio" value={currentPortfolio} onChange={setCurrentPortfolio}
-              min={0} max={3000000} step={25000} format={formatCurrency} />
+              min={0} max={42000000} step={25000} format={formatCurrency} />
 
             <Slider label="Annual Savings" sublabel="until retirement" value={annualSavings}
               onChange={setAnnualSavings} min={0} max={150000} step={5000} format={formatCurrency} />
@@ -289,7 +289,7 @@ export default function FIRECalculator() {
                   min={0} max={0.5} step={0.05} format={(v) => `${(v * 100).toFixed(0)}%`} />
 
                 <Slider label="Plan Until Age" value={lifeExpectancy} onChange={setLifeExpectancy}
-                  min={80} max={100} step={5} format={(v) => `${v}`} />
+                  min={80} max={250} step={5} format={(v) => `${v}`} />
               </div>
             )}
           </div>
