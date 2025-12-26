@@ -6,7 +6,7 @@ tags: ["personal", "finance", "tools"]
 draft: false
 ---
 
-I've been financially comfortable for a while now. I'm fully aware that's a privilege most people don't have, and I don't take it for granted. But being comfortable created its own kind of problem: I had no idea what I was actually working toward.
+I've been financially [comfortable](https://magworld.pw/articles/wealth/) for a while now. I'm fully aware that's a privilege most people don't have, and I don't take it for granted. But being comfortable created its own kind of problem: I had no idea what I was actually working toward.
 
 For years, my financial planning consisted of "save more, invest passively, check balances occasionally." The implicit goal was some vague notion of "enough" -- a number that would let me stop worrying. But I never defined what I'd do when I got there, or what I was sacrificing along the way.
 
