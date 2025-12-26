@@ -14,7 +14,7 @@ This month, I finally sat down to actually model it out. What started as a sprea
 
 ## The Traditional FIRE Trap
 
-If you spend time in personal finance circles, you've probably encountered FIRE (Financial Independence, Retire Early). The basic math is elegant: save 25x your annual expenses, withdraw 4% per year, and you'll statistically never run out of money.
+If you spend time in personal finance circles, you've probably encountered [FIRE](https://en.wikipedia.org/wiki/FIRE_movement). The basic math is elegant: save 25x your annual expenses, withdraw 4% per year, and you'll statistically never run out of money.
 
 The problem is what this optimizes for: _never running out_. That's a fear-based framing. And when I actually modeled my trajectory, I discovered something uncomfortable: following the traditional 4% rule, I'd likely die with millions of dollars unspent.
 
