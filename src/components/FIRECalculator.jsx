@@ -259,7 +259,7 @@ export default function FIRECalculator() {
             <Slider label="Annual Giving" value={annualGiving} onChange={setAnnualGiving}
               min={0} max={100000} step={2500} format={(v) => `$${formatCompact(v)}`} />
 
-            <Slider label="Side Income" sublabel="consulting, projects" value={sideIncome}
+            <Slider label="Annual Side Income" sublabel="consulting, projects" value={sideIncome}
               onChange={setSideIncome} min={0} max={100000} step={5000} format={(v) => `$${formatCompact(v)}`} />
           </div>
 
