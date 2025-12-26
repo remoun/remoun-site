@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, ComposedChart } from 'recharts';
 
 const formatCurrency = (value) => {
@@ -39,6 +39,64 @@ const PRESETS = {
     description: "High income, high lifestyle target",
     values: { currentAge: 40, currentPortfolio: 2000000, annualSavings: 80000, retirementAge: 50, annualSpending: 150000, annualGiving: 40000, sideIncome: 20000 }
   },
+};
+
+// URL parameter configuration: key -> { default, min, max, isFloat }
+const URL_PARAMS = {
+  age: { default: 35, min: 22, max: 65 },
+  portfolio: { default: 500000, min: 0, max: 42000000 },
+  savings: { default: 25000, min: 0, max: 150000 },
+  retire: { default: 45, min: 30, max: 70 },
+  spend: { default: 70000, min: 20000, max: 250000 },
+  give: { default: 15000, min: 0, max: 100000 },
+  side: { default: 10000, min: 0, max: 100000 },
+  preReturn: { default: 0.07, min: 0.03, max: 0.12, isFloat: true },
+  postReturn: { default: 0.05, min: 0.02, max: 0.08, isFloat: true },
+  sideEnd: { default: 55, min: 30, max: 75 },
+  ss: { default: 25000, min: 0, max: 50000 },
+  ssHaircut: { default: 0.25, min: 0, max: 0.5, isFloat: true },
+  life: { default: 95, min: 80, max: 250 },
+};
+
+const parseUrlParams = () => {
+  if (typeof window === 'undefined') return {};
+  const params = new URLSearchParams(window.location.search);
+  const result = {};
+  for (const [key, config] of Object.entries(URL_PARAMS)) {
+    const value = params.get(key);
+    if (value !== null) {
+      const parsed = config.isFloat ? parseFloat(value) : parseInt(value, 10);
+      if (!isNaN(parsed) && parsed >= config.min && parsed <= config.max) {
+        result[key] = parsed;
+      }
+    }
+  }
+  return result;
+};
+
+const buildUrlParams = (state) => {
+  const params = new URLSearchParams();
+  const mapping = {
+    age: state.currentAge,
+    portfolio: state.currentPortfolio,
+    savings: state.annualSavings,
+    retire: state.retirementAge,
+    spend: state.annualSpending,
+    give: state.annualGiving,
+    side: state.sideIncome,
+    preReturn: state.preReturnRate,
+    postReturn: state.postReturnRate,
+    sideEnd: state.sideIncomeEndAge,
+    ss: state.ssIncome,
+    ssHaircut: state.ssHaircut,
+    life: state.lifeExpectancy,
+  };
+  for (const [key, value] of Object.entries(mapping)) {
+    if (value !== URL_PARAMS[key].default) {
+      params.set(key, URL_PARAMS[key].isFloat ? value.toFixed(3) : value);
+    }
+  }
+  return params.toString();
 };
 
 const Slider = ({ label, value, onChange, min, max, step, format = (v) => v, sublabel }) => (
@@ -122,24 +180,78 @@ const calculateProjection = (params) => {
 
 export default function FIRECalculator() {
   // Starting situation
-  const [currentAge, setCurrentAge] = useState(35);
-  const [currentPortfolio, setCurrentPortfolio] = useState(500000);
-  const [annualSavings, setAnnualSavings] = useState(25000);
+  const [currentAge, setCurrentAge] = useState(URL_PARAMS.age.default);
+  const [currentPortfolio, setCurrentPortfolio] = useState(URL_PARAMS.portfolio.default);
+  const [annualSavings, setAnnualSavings] = useState(URL_PARAMS.savings.default);
 
   // Retirement parameters
-  const [retirementAge, setRetirementAge] = useState(45);
-  const [annualSpending, setAnnualSpending] = useState(70000);
-  const [annualGiving, setAnnualGiving] = useState(15000);
-  const [sideIncome, setSideIncome] = useState(10000);
+  const [retirementAge, setRetirementAge] = useState(URL_PARAMS.retire.default);
+  const [annualSpending, setAnnualSpending] = useState(URL_PARAMS.spend.default);
+  const [annualGiving, setAnnualGiving] = useState(URL_PARAMS.give.default);
+  const [sideIncome, setSideIncome] = useState(URL_PARAMS.side.default);
 
   // Advanced parameters
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [preReturnRate, setPreReturnRate] = useState(0.07);
-  const [postReturnRate, setPostReturnRate] = useState(0.05);
-  const [sideIncomeEndAge, setSideIncomeEndAge] = useState(55);
-  const [ssIncome, setSsIncome] = useState(25000);
-  const [ssHaircut, setSsHaircut] = useState(0.25);
-  const [lifeExpectancy, setLifeExpectancy] = useState(95);
+  const [preReturnRate, setPreReturnRate] = useState(URL_PARAMS.preReturn.default);
+  const [postReturnRate, setPostReturnRate] = useState(URL_PARAMS.postReturn.default);
+  const [sideIncomeEndAge, setSideIncomeEndAge] = useState(URL_PARAMS.sideEnd.default);
+  const [ssIncome, setSsIncome] = useState(URL_PARAMS.ss.default);
+  const [ssHaircut, setSsHaircut] = useState(URL_PARAMS.ssHaircut.default);
+  const [lifeExpectancy, setLifeExpectancy] = useState(URL_PARAMS.life.default);
+
+  // Share button state
+  const [shareStatus, setShareStatus] = useState(null);
+
+  // Load params from URL on mount
+  useEffect(() => {
+    const params = parseUrlParams();
+    if (params.age !== undefined) setCurrentAge(params.age);
+    if (params.portfolio !== undefined) setCurrentPortfolio(params.portfolio);
+    if (params.savings !== undefined) setAnnualSavings(params.savings);
+    if (params.retire !== undefined) setRetirementAge(params.retire);
+    if (params.spend !== undefined) setAnnualSpending(params.spend);
+    if (params.give !== undefined) setAnnualGiving(params.give);
+    if (params.side !== undefined) setSideIncome(params.side);
+    if (params.preReturn !== undefined) setPreReturnRate(params.preReturn);
+    if (params.postReturn !== undefined) setPostReturnRate(params.postReturn);
+    if (params.sideEnd !== undefined) setSideIncomeEndAge(params.sideEnd);
+    if (params.ss !== undefined) setSsIncome(params.ss);
+    if (params.ssHaircut !== undefined) setSsHaircut(params.ssHaircut);
+    if (params.life !== undefined) setLifeExpectancy(params.life);
+    // Show advanced if any advanced params were set
+    if (params.preReturn !== undefined || params.postReturn !== undefined ||
+        params.sideEnd !== undefined || params.ss !== undefined ||
+        params.ssHaircut !== undefined || params.life !== undefined) {
+      setShowAdvanced(true);
+    }
+  }, []);
+
+  // Update URL when params change (debounced)
+  useEffect(() => {
+    const state = {
+      currentAge, currentPortfolio, annualSavings, retirementAge, annualSpending,
+      annualGiving, sideIncome, preReturnRate, postReturnRate, sideIncomeEndAge,
+      ssIncome, ssHaircut, lifeExpectancy,
+    };
+    const queryString = buildUrlParams(state);
+    const newUrl = queryString
+      ? `${window.location.pathname}?${queryString}`
+      : window.location.pathname;
+    window.history.replaceState(null, '', newUrl);
+  }, [currentAge, currentPortfolio, annualSavings, retirementAge, annualSpending,
+      annualGiving, sideIncome, preReturnRate, postReturnRate, sideIncomeEndAge,
+      ssIncome, ssHaircut, lifeExpectancy]);
+
+  const handleShare = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setShareStatus('copied');
+      setTimeout(() => setShareStatus(null), 2000);
+    } catch {
+      setShareStatus('error');
+      setTimeout(() => setShareStatus(null), 2000);
+    }
+  }, []);
 
   const applyPreset = (presetKey) => {
     const preset = PRESETS[presetKey].values;
@@ -212,7 +324,7 @@ export default function FIRECalculator() {
 
   return (
     <div className="calc">
-      {/* Presets */}
+      {/* Presets and Share */}
       <div className="calc-presets">
         {Object.entries(PRESETS).map(([key, preset]) => (
           <button
@@ -224,6 +336,13 @@ export default function FIRECalculator() {
             {preset.name}
           </button>
         ))}
+        <button
+          onClick={handleShare}
+          className="calc-preset-btn calc-preset-btn--share"
+          title="Copy link to this scenario"
+        >
+          {shareStatus === 'copied' ? 'Copied!' : shareStatus === 'error' ? 'Failed' : 'Share'}
+        </button>
       </div>
 
       <div className="calc-layout">
@@ -448,6 +567,17 @@ export default function FIRECalculator() {
         .calc-preset-btn:hover {
           border-color: var(--accent);
           color: var(--accent);
+        }
+
+        .calc-preset-btn--share {
+          margin-left: auto;
+          background: color-mix(in srgb, var(--accent) 10%, var(--bg));
+          border-color: var(--accent);
+          color: var(--accent);
+        }
+
+        .calc-preset-btn--share:hover {
+          background: color-mix(in srgb, var(--accent) 20%, var(--bg));
         }
 
         .calc-layout {
