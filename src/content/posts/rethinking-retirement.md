@@ -1,6 +1,6 @@
 ---
 title: "Rethinking Retirement: From “How Much Is Enough?” to “What's It All For?”"
-date: 2025-12-26
+date: 2025-12-25
 description: "How a spreadsheet exercise turned into a philosophical reframe about money, time, and what we owe ourselves and others."
 tags: ["personal", "finance", "tools"]
 draft: false
