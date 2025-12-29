@@ -39,7 +39,7 @@ This felt like permission I didn't know I needed.
 I'm an engineer. When I have a fuzzy problem, I build a model. So I created a spreadsheet that tracks portfolio value from now through age 100, accounting for:
 
 - Different spending levels across life phases (the "spending smile"—high early, lower in your 60s-70s, higher again for healthcare in your 80s)
-- Side income from part-time work (I don't plan to fully stop working, just work differently)
+- Side income from part-time work (I don't plan to fully stop working right away, just work differently)
 - Giving that phases out as I age (front-loaded toward family and causes)
 - Social Security with a haircut for potential future cuts
 - Inflation and variable return assumptions
@@ -78,7 +78,7 @@ The modeling led to some concrete decisions:
 
 **Higher "experience budget."** I've been living below my means not out of necessity but out of inertia. Time to actually take the trips, host the gatherings, say yes to things.
 
-**Redefining "retirement."** I don't want to stop working; I want to work differently. Focus on projects I'm passionate about, especially open-source and non-profits. Part-time consulting on projects I choose, enough income to reduce portfolio reliance but not so much that work crowds out life.
+**Redefining "retirement."** I don't want to stop working right away; I want to work differently. Focus on projects I'm passionate about, especially open-source and non-profits. Part-time consulting on projects I choose, enough income to reduce portfolio reliance but not so much that work crowds out life.
 
 **Longer time horizon, less anxiety.** Modeling to age 100 sounds morbid (or unrealistic depending on your perspective), but it's clarifying. When you see that you're fine even in conservative scenarios, the daily market noise matters less.
 
