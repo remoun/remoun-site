@@ -1,0 +1,180 @@
+---
+import Layout from '../layouts/Tool.astro';
+import FaceBlurTool from '../components/face-blur/index.jsx';
+---
+
+<Layout title="Face Blur Tool | Privacy-First Photo Processing">
+  <div class="tool-page">
+    <!-- Header -->
+    <header class="tool-header">
+      <h1>Face Blur Tool</h1>
+      <p>
+        Automatically detect and blur faces in photos. Uses AI age estimation
+        to pre-select children's faces. All processing happens in your browser.
+      </p>
+    </header>
+
+    <!-- Concepts Explainer -->
+    <section class="concept-grid">
+      <div class="concept-card">
+        <h2>Privacy First</h2>
+        <p>
+          <strong>100% client-side processing.</strong> Your photos never leave your device.
+          No uploads, no servers, no data collection.
+        </p>
+      </div>
+
+      <div class="concept-card concept-card--highlight">
+        <h2>Child Protection</h2>
+        <p>
+          <strong>AI age estimation.</strong> Faces estimated under 18 are automatically
+          pre-selected for blurring. Review and adjust before processing.
+        </p>
+      </div>
+    </section>
+
+    <!-- Tool -->
+    <section class="calculator-section">
+      <FaceBlurTool client:load />
+    </section>
+
+    <!-- Resources -->
+    <section class="resources">
+      <h2>About the Technology</h2>
+      <div class="resources__grid">
+        <a href="https://github.com/vladmandic/face-api" target="_blank" rel="noopener">
+          <div class="resources__title">face-api.js</div>
+          <div class="resources__subtitle">Face detection library</div>
+        </a>
+        <a href="https://github.com/remoun/remoun-site/tree/main/src/components/face-blur" target="_blank" rel="noopener">
+          <div class="resources__title">Source Code</div>
+          <div class="resources__subtitle">This tool is open-source on GitHub</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer Note -->
+    <footer class="tool-footer">
+      <p>Built for privacy. Your photos stay on your device.</p>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  .tool-page {
+    padding: 1rem 0;
+  }
+
+  .tool-header {
+    margin-bottom: 2rem;
+  }
+
+  .tool-header h1 {
+    font-family: var(--font-display);
+    font-size: var(--size-3xl);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+  }
+
+  .tool-header p {
+    font-size: var(--size-base);
+    color: var(--text-secondary);
+    max-width: 40rem;
+  }
+
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .concept-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .concept-card--highlight {
+    background: color-mix(in srgb, var(--accent) 8%, var(--bg));
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--border));
+  }
+
+  .concept-card h2 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+  }
+
+  .concept-card p {
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .calculator-section {
+    margin-bottom: 3rem;
+  }
+
+  .resources {
+    margin-bottom: 2rem;
+  }
+
+  .resources h2 {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+  }
+
+  .resources__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .resources a {
+    display: block;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    text-decoration: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .resources a:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .resources__title {
+    font-family: var(--font-display);
+    font-weight: 500;
+    color: var(--text);
+    font-size: var(--size-sm);
+  }
+
+  .resources__subtitle {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.25rem;
+  }
+
+  .tool-footer {
+    text-align: center;
+    font-size: var(--size-sm);
+    color: var(--text-secondary);
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    opacity: 0.7;
+  }
+
+  .tool-footer p {
+    margin: 0;
+  }
+</style>
