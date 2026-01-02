@@ -1,6 +1,6 @@
 ---
 title: "Building a Face Blur Tool for My Choir's Photo Problem"
-date: 2025-01-02
+date: 2026-01-02
 description: "How a choir's privacy workflow bottleneck led to a browser-based batch face blurring tool."
 tags: [tools, privacy, ai]
 ---
