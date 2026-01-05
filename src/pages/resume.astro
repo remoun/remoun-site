@@ -61,78 +61,165 @@ import Base from '../layouts/Base.astro';
     <section class="resume-section">
       <h2>Experience</h2>
       <div class="experience-list">
-        <div class="resume-entry">
-          <div class="resume-entry__header">
+        <details class="resume-entry">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Senior Software Engineer · HaydenAI</span>
             <span class="resume-entry__date">Dec 2024 – Present</span>
+          </summary>
+          <div class="resume-entry__content">
+            <ul>
+              <li>Designed and led the implementation of an orchestrator for event processing, consolidating fragmented message dispatching into one dedicated service, improving robustness, configurability and observability.</li>
+              <li>Designed and led the implementation for extending core schemas and all services to decouple fleets from violation processors — a 2-month effort that extended the system to more accurately model the real world, without any service interruptions.</li>
+              <li>Designed and implemented an event drip service to sample events from production to test environments and their corresponding S3 buckets.</li>
+              <li>Extended the portal UI with several features to provide new functionality and improve usability.</li>
+            </ul>
+            <p class="resume-tech">Go, Python, TypeScript, React, PostgreSQL, AWS</p>
           </div>
-        </div>
-        <div class="resume-entry">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Founder · RM Tech Consulting</span>
             <span class="resume-entry__date">Nov 2023 – Dec 2024</span>
+          </summary>
+          <div class="resume-entry__content">
+            <p>Offering full-stack software development services.</p>
+            <p class="resume-tech">TypeScript, React, React Native</p>
           </div>
-        </div>
-        <div class="resume-entry">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Staff Software Engineer · Sentz <span class="fka">(fka MobileCoin)</span></span>
             <span class="resume-entry__date">Jan 2022 – Oct 2023</span>
+          </summary>
+          <div class="resume-entry__content">
+            <p>MobileCoin is a fast (&lt;5s), private (end-to-end encrypted leveraging Intel SGX), mobile-friendly and planet-friendly payments network. Designed and delivered features across the core blockchain, the Moby app, and backend services.</p>
+            <ul>
+              <li>Implemented several features end-to-end, from extending Rust- and Kotlin-based backends to the Flutter-based client.</li>
+              <li>Built up a backend service from proof-of-concept to production, including CI, rate limiting, monitoring, and ongoing maintenance. Also implemented the client side calling this service.</li>
+              <li>Interfaced with external partners consuming the data ingested by this service.</li>
+              <li>Contributed to technical and UX design reviews across the board.</li>
+            </ul>
+            <blockquote class="resume-quote">
+              "Remoun sets the bar for how to be a good team citizen. Highly involved in code reviews, always trying to become more involved in the org and bringing creative ideas to the table, like doing pair programming sessions to help teammates improve their skills."
+              <cite>— Performance review</cite>
+            </blockquote>
+            <p class="resume-tech">Rust, Kotlin, TypeScript, Flutter, gRPC, React, PostgreSQL</p>
           </div>
-        </div>
-        <div class="resume-entry">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Senior Software Engineer · Kiva</span>
             <span class="resume-entry__date">Jan 2020 – Nov 2021</span>
+          </summary>
+          <div class="resume-entry__content">
+            <p>Full stack engineer helping upgrade Kiva's backends, including building and launching enhancements to auto-lending and subscription offerings.</p>
+            <ul>
+              <li>One of two engineers on the Auto-Lending team — the tool that made 9.6% ($1.5MM) of Kiva's annual revenue and facilitated 19.4% ($25MM) of annual lending in 2020 (revenue up 750% from 2019; lending up 40%).</li>
+              <li>Led the $5 notes project, lowering the minimum lending amount from $25 to $5 — making Kiva more approachable to new users and unlocking upwards of $3MM in funds for auto-lending.</li>
+              <li>Led a migration of how Kiva backends sync with Salesforce, switching from polling-query to push-notification model with message passing for better scaling and robustness.</li>
+            </ul>
+            <p class="resume-tech">PHP, Kotlin, JavaScript, Vue.js, SQL, Kafka</p>
           </div>
-        </div>
-        <div class="resume-entry">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Software Engineer · Waymo</span>
             <span class="resume-entry__date">Mar 2016 – Jun 2019</span>
+          </summary>
+          <div class="resume-entry__content">
+            <p>Software engineer on the Simulation team, focusing on triage tools and processes: assessing and labeling events from real-world and simulated driving, digesting those to focus on top issues, and measuring Self-Driving System performance.</p>
+            <p class="resume-tech">C++, TypeScript, Python, Angular, Spanner</p>
           </div>
-        </div>
-        <div class="resume-entry">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Software Engineer · Google</span>
             <span class="resume-entry__date">Nov 2011 – Mar 2016</span>
+          </summary>
+          <div class="resume-entry__content">
+            <ul>
+              <li>Supported Google Search Apps on Android, iOS, Windows 8+ and Windows Phone. Have code running in the Google app on each of those platforms.</li>
+              <li>Did a 6-month rotation with Search Frontend SRE; was primary oncall for Search for a few weeks. Also helped improve DoS protections for Search apps.</li>
+              <li>Various UI features, redesigns and clean-up.</li>
+              <li>Presented "Pro Tips" training several times at the Search Features bootcamp.</li>
+            </ul>
+            <p class="resume-tech">C++, Java, JavaScript, Python</p>
           </div>
-        </div>
-        <div class="resume-entry">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Co-Founder & CTO · Databracket</span>
             <span class="resume-entry__date">Jul 2010 – May 2012</span>
+          </summary>
+          <div class="resume-entry__content">
+            <p>Co-led development on IceCharge, our first flagship service.</p>
+            <ul>
+              <li>Wrote in-browser client for users (JS, Dojo).</li>
+              <li>Co-authored backend (C++), frontend server (Python, Django), and shopping cart integration.</li>
+              <li>Primary owner of DB setup and administration (MySQL).</li>
+            </ul>
+            <p class="resume-tech">JavaScript, C++, Python, Django, MySQL</p>
           </div>
-        </div>
-        <div class="resume-entry">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Software Engineer · Acuant Compliance <span class="fka">(fka IdentityMind)</span></span>
             <span class="resume-entry__date">Nov 2009 – Apr 2010</span>
+          </summary>
+          <div class="resume-entry__content">
+            <ul>
+              <li>Implemented the merchant frontend (reporting, dashboard, administrative functions).</li>
+              <li>Implemented the first REST API client, integrated with a shopping cart (KonaKart).</li>
+              <li>Contributed to the JS responsible for 'deviceprinting' (gathering data about the device/browser making the order).</li>
+            </ul>
           </div>
-        </div>
-        <div class="resume-entry resume-entry--minor">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry resume-entry--minor">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Software Engineering Intern · Google (Gmail)</span>
             <span class="resume-entry__date">Jun 2008 – Aug 2008</span>
+          </summary>
+          <div class="resume-entry__content">
+            <ul>
+              <li>Implemented an experimental sign-up page for Gmail.</li>
+              <li>Designed and implemented an iGoogle gadget as part of a contest between interns in EMEA, winning the Bronze medal.</li>
+            </ul>
           </div>
-        </div>
-        <div class="resume-entry resume-entry--minor">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry resume-entry--minor">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">IT Intern · Egypt Post</span>
             <span class="resume-entry__date">Jun 2007 – Aug 2007</span>
+          </summary>
+          <div class="resume-entry__content">
+            <ul>
+              <li>Worked in hardware maintenance, actively repaired faulty computer hardware.</li>
+              <li>Assessing network infrastructure in regional office for an intranet upgrade.</li>
+            </ul>
           </div>
-        </div>
-        <div class="resume-entry resume-entry--minor">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry resume-entry--minor">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Undergraduate TA · American University in Cairo</span>
             <span class="resume-entry__date">Feb 2007 – Jun 2007</span>
+          </summary>
+          <div class="resume-entry__content">
+            <p>TA for Data Structures and Algorithms (CSCI 210)</p>
+            <ul>
+              <li>Explaining algorithms and data structures to other students.</li>
+              <li>Testing and debugging students' programs.</li>
+            </ul>
           </div>
-        </div>
-        <div class="resume-entry resume-entry--minor">
-          <div class="resume-entry__header">
+        </details>
+        <details class="resume-entry resume-entry--minor">
+          <summary class="resume-entry__header">
             <span class="resume-entry__title">Database Administrator · Niceco Elevators</span>
             <span class="resume-entry__date">Sep 2003 – Jun 2005</span>
+          </summary>
+          <div class="resume-entry__content">
+            <p>Designed, developed and regularly maintained the company's client accounts application.</p>
           </div>
-        </div>
+        </details>
       </div>
     </section>
 
@@ -157,6 +244,12 @@ import Base from '../layouts/Base.astro';
     </section>
   </div>
 </Base>
+
+<style is:global>
+  .container:has(.resume) {
+    max-width: 52rem;
+  }
+</style>
 
 <style>
   .resume-contact {
@@ -199,10 +292,6 @@ import Base from '../layouts/Base.astro';
     color: var(--text-secondary);
   }
 
-  .experience-list .resume-entry {
-    margin-bottom: 0.75rem;
-  }
-
   .resume-entry--minor {
     opacity: 0.7;
   }
@@ -228,5 +317,74 @@ import Base from '../layouts/Base.astro';
     position: absolute;
     left: 0;
     color: var(--accent);
+  }
+
+  details.resume-entry {
+    margin-bottom: 0.75rem;
+  }
+
+  details.resume-entry > summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  details.resume-entry > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details.resume-entry > summary::marker {
+    display: none;
+  }
+
+  details.resume-entry > summary:hover .resume-entry__title {
+    color: var(--accent);
+  }
+
+  .resume-entry__content {
+    margin-top: 0.5rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--border);
+    font-size: var(--size-sm);
+  }
+
+  .resume-entry__content ul {
+    margin: 0.5rem 0;
+    padding-left: 1.25rem;
+  }
+
+  .resume-entry__content li {
+    margin-bottom: 0.35rem;
+  }
+
+  .resume-entry__content p {
+    margin: 0.5rem 0;
+  }
+
+  .resume-tech {
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .resume-quote {
+    margin: 0.75rem 0 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--surface);
+    border-radius: 4px;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .resume-quote cite {
+    display: block;
+    margin-top: 0.25rem;
+    font-style: normal;
+    font-size: var(--size-xs);
+    color: var(--text-tertiary);
+  }
+
+  @media print {
+    details.resume-entry[open] .resume-entry__content {
+      display: block;
+    }
   }
 </style>
