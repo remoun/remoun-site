@@ -8,20 +8,20 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
 
 <Base title="Blog | Remoun" description="Hacks, scripts, and things I've found useful.">
   <h1>Blog</h1>
-  <p class="page-intro">Documenting hacks, scripts, and things I've found useful.</p>
+  <p class="intro">Documenting hacks, scripts, and things I've found useful.</p>
 
   <ul class="post-list">
     {posts.map(post => (
-      <li class="post-item">
-        <h2 class="post-item__title">
+      <li class="post">
+        <h2 class="title">
           <a href={`/blog/${post.slug}`}>{post.data.title}</a>
         </h2>
-        <p class="post-item__meta">
+        <p class="meta">
           <time datetime={post.data.date.toISOString()}>
             {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
           </time>
         </p>
-        <p class="post-item__description">{post.data.description}</p>
+        <p class="description">{post.data.description}</p>
         {post.data.tags.length > 0 && (
           <div class="tags">
             {post.data.tags.map(tag => (
@@ -34,18 +34,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
   </ul>
 
   {posts.length === 0 && (
-    <p class="empty-state">No posts yet. Check back soon!</p>
+    <p class="empty">No posts yet. Check back soon!</p>
   )}
 </Base>
 
-<style>
-  .page-intro {
-    color: var(--text-secondary);
-    margin-bottom: 2rem;
-  }
-
-  .empty-state {
-    color: var(--text-secondary);
-    font-style: italic;
-  }
-</style>

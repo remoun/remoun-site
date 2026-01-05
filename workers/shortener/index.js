@@ -16,7 +16,7 @@ export default {
   <style>
     body { font-family: system-ui, sans-serif; max-width: 400px; margin: 4rem auto; padding: 1rem; }
     h1 { font-size: 1.5rem; }
-    ul { list-style: none; padding: 0; }
+    ul { padding: 0; }
     li { margin: 0.5rem 0; }
     a { color: #c45a3b; }
   </style>

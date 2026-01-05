@@ -19,9 +19,9 @@ const currentPath = Astro.url.pathname;
 </head>
 <body>
   <header class="site-header">
-    <div class="site-header__inner">
-      <a href="/" class="site-title">Remoun</a>
-      <nav class="site-nav">
+    <div class="inner">
+      <a href="/" class="title">Remoun</a>
+      <nav>
         <a href="/blog" class:list={[{ active: currentPath.startsWith('/blog') }]}>Blog</a>
         <a href="/portfolio" class:list={[{ active: currentPath.startsWith('/portfolio') }]}>Portfolio</a>
         <a href="/resume" class:list={[{ active: currentPath === '/resume' }]}>Resume</a>

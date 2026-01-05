@@ -14,10 +14,10 @@ const featuredProjects = (await getCollection('projects'))
 <Base title="Remoun">
   <section class="hero">
     <h1>Hey, I'm Remoun</h1>
-    <p class="hero__subtitle">
+    <p class="subtitle">
       Senior software engineer. I build things, break things, and occasionally write about it.
     </p>
-    <div class="hero__links">
+    <div class="links">
       <a href="/blog">Read the blog</a>
       <a href="/resume">See my work</a>
     </div>
@@ -28,11 +28,11 @@ const featuredProjects = (await getCollection('projects'))
       <h2>Recent writing</h2>
       <ul class="post-list">
         {recentPosts.map(post => (
-          <li class="post-item">
-            <h3 class="post-item__title">
+          <li class="post">
+            <h3 class="title">
               <a href={`/blog/${post.slug}`}>{post.data.title}</a>
             </h3>
-            <p class="post-item__meta">
+            <p class="meta">
               <time datetime={post.data.date.toISOString()}>
                 {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
               </time>
@@ -51,9 +51,9 @@ const featuredProjects = (await getCollection('projects'))
         {featuredProjects.map(project => (
           <a href={project.data.link || `/portfolio/${project.slug}`} class="portfolio-card">
             {project.data.image && <img src={project.data.image} alt={project.data.title} />}
-            <div class="portfolio-card__content">
-              <h3 class="portfolio-card__title">{project.data.title}</h3>
-              <p class="portfolio-card__description">{project.data.description}</p>
+            <div class="content">
+              <h3 class="title">{project.data.title}</h3>
+              <p class="description">{project.data.description}</p>
             </div>
           </a>
         ))}
@@ -66,41 +66,39 @@ const featuredProjects = (await getCollection('projects'))
 <style>
   .hero {
     padding: 2rem 0 3rem;
-  }
 
-  .hero h1 {
-    font-size: var(--size-3xl);
-    margin-bottom: 0.75rem;
-  }
+    h1 {
+      font-size: var(--size-3xl);
+      margin-bottom: 0.75rem;
+    }
 
-  .hero__subtitle {
-    font-size: var(--size-lg);
-    color: var(--text-secondary);
-    margin-bottom: 1.5rem;
-    max-width: 32rem;
-  }
+    .subtitle {
+      font-size: var(--size-lg);
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      max-width: 32rem;
+    }
 
-  .hero__links {
-    display: flex;
-    gap: 1.5rem;
-  }
+    .links {
+      display: flex;
+      gap: 1.5rem;
 
-  .hero__links a {
-    font-family: var(--font-display);
+      a { font-family: var(--font-display); }
+    }
   }
 
   .home-section {
     margin-top: 3rem;
     padding-top: 2rem;
     border-top: 1px solid var(--border);
-  }
 
-  .home-section h2 {
-    font-size: var(--size-base);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-secondary);
-    margin-top: 0;
-    margin-bottom: 1.5rem;
+    h2 {
+      font-size: var(--size-base);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-secondary);
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+    }
   }
 </style>
