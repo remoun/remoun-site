@@ -260,10 +260,12 @@ const { title, description = "Date Remoun" } = Astro.props;
 
   .not-list {
     padding: 0;
-  }
 
-  .not-list li {
-    padding: 0.5rem 0;
+    li {
+      padding: 0.5rem 0;
+
+      &::before { display: none; }
+    }
   }
 
   .read-me-grid {
