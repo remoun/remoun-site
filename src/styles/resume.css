@@ -1,0 +1,194 @@
+.container:has(.resume) {
+  max-width: 52rem;
+}
+
+.resume .contact {
+  font-size: var(--size-sm);
+  color: var(--text-secondary);
+}
+
+.resume .contact a {
+  color: var(--text-secondary);
+}
+
+.resume .contact a:hover {
+  color: var(--accent);
+}
+
+.resume .fka {
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.resume .entry ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.resume .entry li {
+  margin-bottom: 0.25rem;
+}
+
+.resume .entry.minor {
+  opacity: 0.7;
+}
+
+.resume .entry.minor .title {
+  font-weight: 500;
+}
+
+.resume .experience details.entry {
+  margin-bottom: 0.75rem;
+}
+
+.resume .experience details.entry > summary {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.resume .experience details.entry > summary::-webkit-details-marker {
+  display: none;
+}
+
+.resume .experience details.entry > summary::marker {
+  display: none;
+}
+
+.resume .experience details.entry > summary:hover .title {
+  color: var(--accent);
+}
+
+.resume .experience details.entry .content {
+  margin-top: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--border);
+  font-size: var(--size-sm);
+}
+
+.resume .experience details.entry .content ul {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+
+.resume .experience details.entry .content li {
+  margin-bottom: 0.35rem;
+}
+
+.resume .experience details.entry .content p {
+  margin: 0.5rem 0;
+}
+
+.resume .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.resume .title {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.resume .date {
+  font-size: var(--size-sm);
+  color: var(--text-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.resume .subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.resume .tech {
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.resume .quote {
+  margin: 0.75rem 0 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--surface);
+  border-radius: 4px;
+  font-style: italic;
+  color: var(--text-secondary);
+}
+
+.resume .quote cite {
+  display: block;
+  margin-top: 0.25rem;
+  font-style: normal;
+  font-size: var(--size-xs);
+  color: var(--text-tertiary);
+}
+
+.resume .awards {
+  padding: 0;
+  margin: 0;
+}
+
+@media print {
+  .resume details.entry[open] .content {
+    display: block;
+  }
+
+  .resume {
+    font-size: 10pt;
+  }
+
+  .resume h1 {
+    font-size: 18pt;
+    margin-bottom: 0.25rem;
+  }
+
+  .resume section {
+    margin-bottom: 1rem;
+  }
+
+  .resume section h2 {
+    font-size: 9pt;
+    margin-bottom: 0.5rem;
+  }
+
+  .resume .experience details.entry {
+    margin-bottom: 0.4rem;
+  }
+
+  .resume .experience details.entry .content {
+    font-size: 9pt;
+    margin-top: 0.25rem;
+    padding-left: 0.25rem;
+  }
+
+  .resume .experience details.entry .content ul {
+    margin: 0.25rem 0;
+  }
+
+  .resume .experience details.entry .content li {
+    margin-bottom: 0.15rem;
+  }
+
+  .resume .experience details.entry .content p {
+    margin: 0.25rem 0;
+  }
+
+  .resume .quote {
+    padding: 0.25rem 0.5rem;
+    margin: 0.25rem 0;
+    font-size: 9pt;
+  }
+
+  .resume .tech {
+    font-size: 8pt;
+    margin-top: 0.15rem !important;
+  }
+
+  .resume .entry.minor {
+    display: none;
+  }
+}

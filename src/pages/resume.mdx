@@ -1,0 +1,249 @@
+---
+title: "Resume | Remoun Metyas"
+description: "Product engineer with 15 years of experience building systems where the stakes are real."
+layout: ../layouts/Base.astro
+---
+
+import '../styles/resume.css'
+
+<div class="resume">
+  <header>
+    <h1>Remoun Metyas</h1>
+    <p class="contact">
+      Bay Area, CA ·
+      <a href="https://linkedin.com/in/remoun">LinkedIn</a> ·
+      <a href="mailto:work@remoun.me">work@remoun.me</a>
+    </p>
+  </header>
+
+  <section>
+    <h2>Summary</h2>
+    <p>
+      Product engineer with 15 years of experience building systems where the stakes are real — fraud prevention, financial inclusion, safety-critical infrastructure.
+    </p>
+    <p>
+      The through-line: what does it take to make connection possible at scale?
+    </p>
+    <p>
+      Strong foundation in platform engineering and systems design, with a bias toward the product surface where infrastructure meets the people it serves.
+    </p>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <p>
+      Full-stack development and technical leadership across web, mobile, and backend systems.<br/>
+      Technologies include Go, Python, Rust, Kotlin, Java, C++, TypeScript, React, SQL, gRPC, PostgreSQL, Kafka.
+    </p>
+  </section>
+
+  <section>
+    <h2>Key Accomplishments</h2>
+
+    <div class="entry">
+      <p class="title">Expanding Access to Microfinance</p>
+      <p>Co-owned the launch of Kiva's Auto-Lending engine and the $5 Notes migration, which lowered the minimum loan from $25 to $5 — making microfinance accessible to more first-time lenders and expanding Kiva's reach globally.</p>
+    </div>
+
+    <div class="entry">
+      <p class="title">Unifying Safety Tooling at Waymo</p>
+      <p>Designed and built a generic event triage tool processing millions of driving events per week, replacing 4 bespoke tools and giving engineers a single interface to measure and improve Self-Driving System performance.</p>
+    </div>
+
+    <div class="entry">
+      <p class="title">Backend Platform for a Privacy-First Mobile Wallet</p>
+      <p>Led backend services for Moby, Sentz's flagship wallet app — everything beyond the core blockchain. Took one service from PoC to production with CI, rate limiting, observability, and partner integrations.</p>
+    </div>
+
+    <div class="entry">
+      <p class="title">Scaling Traffic Enforcement Infrastructure</p>
+      <p>Designed and shipped an event pipeline orchestrator for HaydenAI, consolidating fragmented dispatching into a robust, observable system. Led a multi-engineer effort to decouple fleets from violation processors, expanding operational flexibility and helping land a new client.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+    <div class="experience">
+      <details class="entry">
+        <summary>
+          <span class="title">Senior Software Engineer · HaydenAI</span>
+          <span class="date">Dec 2024 – Present</span>
+        </summary>
+        <div class="content">
+          <ul>
+            <li>Designed and led the implementation of an orchestrator for event processing, consolidating fragmented message dispatching into one dedicated service, improving robustness, configurability and observability.</li>
+            <li>Designed and led the implementation for extending core schemas and all services to decouple fleets from violation processors — a 2-month effort that extended the system to more accurately model the real world, without any service interruptions.</li>
+            <li>Designed and implemented an event drip service to sample events from production to test environments and their corresponding S3 buckets.</li>
+            <li>Extended the portal UI with several features to provide new functionality and improve usability.</li>
+          </ul>
+          <p class="tech">Go, Python, TypeScript, React, PostgreSQL, AWS</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <span class="title">Founder · RM Tech Consulting</span>
+          <span class="date">Nov 2023 – Dec 2024</span>
+        </summary>
+        <div class="content">
+          <p>Offering full-stack software development services.</p>
+          <p class="tech">TypeScript, React, React Native</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <span class="title">Staff Software Engineer · Sentz <span class="fka">(fka MobileCoin)</span></span>
+          <span class="date">Jan 2022 – Oct 2023</span>
+        </summary>
+        <div class="content">
+          <p>MobileCoin is a fast (&lt;5s), private (end-to-end encrypted leveraging Intel SGX), mobile-friendly and planet-friendly payments network. Designed and delivered features across the core blockchain, the Moby app, and backend services.</p>
+          <ul>
+            <li>Implemented several features end-to-end, from extending Rust- and Kotlin-based backends to the Flutter-based client.</li>
+            <li>Built up a backend service from proof-of-concept to production, including CI, rate limiting, monitoring, and ongoing maintenance. Also implemented the client side calling this service.</li>
+            <li>Interfaced with external partners consuming the data ingested by this service.</li>
+            <li>Contributed to technical and UX design reviews across the board.</li>
+          </ul>
+          <blockquote class="quote">
+            "Remoun sets the bar for how to be a good team citizen. Highly involved in code reviews, always trying to become more involved in the org and bringing creative ideas to the table, like doing pair programming sessions to help teammates improve their skills."
+            <cite>— Performance review</cite>
+          </blockquote>
+          <p class="tech">Rust, Kotlin, TypeScript, Flutter, gRPC, React, PostgreSQL</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <span class="title">Senior Software Engineer · Kiva</span>
+          <span class="date">Jan 2020 – Nov 2021</span>
+        </summary>
+        <div class="content">
+          <p>Full stack engineer helping upgrade Kiva's backends, including building and launching enhancements to auto-lending and subscription offerings.</p>
+          <ul>
+            <li>One of two engineers on the Auto-Lending team — the tool that made 9.6% ($1.5MM) of Kiva's annual revenue and facilitated 19.4% ($25MM) of annual lending in 2020 (revenue up 750% from 2019; lending up 40%).</li>
+            <li>Led the $5 notes project, lowering the minimum lending amount from $25 to $5 — making Kiva more approachable to new users and unlocking upwards of $3MM in funds for auto-lending.</li>
+            <li>Led a migration of how Kiva backends sync with Salesforce, switching from polling-query to push-notification model with message passing for better scaling and robustness.</li>
+          </ul>
+          <p class="tech">PHP, Kotlin, JavaScript, Vue.js, SQL, Kafka</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <span class="title">Software Engineer · Waymo</span>
+          <span class="date">Mar 2016 – Jun 2019</span>
+        </summary>
+        <div class="content">
+          <p>Software engineer on the Simulation team, focusing on triage tools and processes: assessing and labeling events from real-world and simulated driving, digesting those to focus on top issues, and measuring Self-Driving System performance.</p>
+          <p class="tech">C++, TypeScript, Python, Angular, Spanner</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <span class="title">Software Engineer · Google</span>
+          <span class="date">Nov 2011 – Mar 2016</span>
+        </summary>
+        <div class="content">
+          <ul>
+            <li>Supported Google Search Apps on Android, iOS, Windows 8+ and Windows Phone. Have code running in the Google app on each of those platforms.</li>
+            <li>Did a 6-month rotation with Search Frontend SRE; was primary oncall for Search for a few weeks. Also helped improve DoS protections for Search apps.</li>
+            <li>Various UI features, redesigns and clean-up.</li>
+            <li>Presented "Pro Tips" training several times at the Search Features bootcamp.</li>
+          </ul>
+          <p class="tech">C++, Java, JavaScript, Python</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <span class="title">Co-Founder & CTO · Databracket</span>
+          <span class="date">Jul 2010 – May 2012</span>
+        </summary>
+        <div class="content">
+          <p>Co-led development on IceCharge, our first flagship service.</p>
+          <ul>
+            <li>Wrote in-browser client for users (JS, Dojo).</li>
+            <li>Co-authored backend (C++), frontend server (Python, Django), and shopping cart integration.</li>
+            <li>Primary owner of DB setup and administration (MySQL).</li>
+          </ul>
+          <p class="tech">JavaScript, C++, Python, Django, MySQL</p>
+        </div>
+      </details>
+      <details class="entry">
+        <summary>
+          <span class="title">Software Engineer · Acuant Compliance <span class="fka">(fka IdentityMind)</span></span>
+          <span class="date">Nov 2009 – Apr 2010</span>
+        </summary>
+        <div class="content">
+          <ul>
+            <li>Implemented the merchant frontend (reporting, dashboard, administrative functions).</li>
+            <li>Implemented the first REST API client, integrated with a shopping cart (KonaKart).</li>
+            <li>Contributed to the JS responsible for 'deviceprinting' (gathering data about the device/browser making the order).</li>
+          </ul>
+        </div>
+      </details>
+      <details class="entry minor">
+        <summary>
+          <span class="title">Software Engineering Intern · Google (Gmail)</span>
+          <span class="date">Jun 2008 – Aug 2008</span>
+        </summary>
+        <div class="content">
+          <ul>
+            <li>Implemented an experimental sign-up page for Gmail.</li>
+            <li>Designed and implemented an iGoogle gadget as part of a contest between interns in EMEA, winning the Bronze medal.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="entry minor">
+        <summary>
+          <span class="title">IT Intern · Egypt Post</span>
+          <span class="date">Jun 2007 – Aug 2007</span>
+        </summary>
+        <div class="content">
+          <ul>
+            <li>Worked in hardware maintenance, actively repaired faulty computer hardware.</li>
+            <li>Assessing network infrastructure in regional office for an intranet upgrade.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="entry minor">
+        <summary>
+          <span class="title">Undergraduate TA · American University in Cairo</span>
+          <span class="date">Feb 2007 – Jun 2007</span>
+        </summary>
+        <div class="content">
+          <p>TA for Data Structures and Algorithms (CSCI 210)</p>
+          <ul>
+            <li>Explaining algorithms and data structures to other students.</li>
+            <li>Testing and debugging students' programs.</li>
+          </ul>
+        </div>
+      </details>
+      <details class="entry minor">
+        <summary>
+          <span class="title">Database Administrator · Niceco Elevators</span>
+          <span class="date">Sep 2003 – Jun 2005</span>
+        </summary>
+        <div class="content">
+          <p>Designed, developed and regularly maintained the company's client accounts application.</p>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section>
+    <h2>Education</h2>
+    <div class="entry">
+      <div class="header">
+        <span class="title">B.Sc. Computer Science</span>
+        <span class="date">2009</span>
+      </div>
+      <p class="subtitle">American University in Cairo · Minors: Mathematics, Theatre</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Awards & Recognition</h2>
+    <ul class="awards">
+      <li>ACM ICPC World Finalist, 2008</li>
+      <li>Google Search Citizenship Award, 2013</li>
+      <li>Co-inventor, US Patent US20240420126A1: "System and Method for Providing Secure Transaction Data Access to Trusted Third Parties"</li>
+    </ul>
+  </section>
+</div>
+
