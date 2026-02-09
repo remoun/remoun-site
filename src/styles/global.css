@@ -28,7 +28,7 @@
   --size-3xl: 3.5rem;
 
   --line-height: 1.7;
-  --max-width: 42rem;
+  --max-width: 64rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -44,7 +44,9 @@
   }
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -69,11 +71,16 @@ body {
   margin: 0 auto;
   padding: 2rem 1.5rem;
 
-  &.wide { max-width: 56rem; }
+  &.wide {
+    max-width: 56rem;
+  }
 }
 
 /* Typography */
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.2;
@@ -81,11 +88,23 @@ h1, h2, h3, h4 {
   letter-spacing: -0.02em;
 }
 
-h1 { font-size: var(--size-2xl); }
-h2 { font-size: var(--size-xl); margin-top: 2.5rem; }
-h3 { font-size: var(--size-lg); margin-top: 2rem; }
+h1 {
+  font-size: var(--size-2xl);
+}
 
-p { margin: 0 0 1.25rem; }
+h2 {
+  font-size: var(--size-xl);
+  margin-top: 2.5rem;
+}
+
+h3 {
+  font-size: var(--size-lg);
+  margin-top: 2rem;
+}
+
+p {
+  margin: 0 0 1.25rem;
+}
 
 a {
   color: var(--accent);
@@ -94,10 +113,13 @@ a {
   text-underline-offset: 2px;
   transition: color 0.15s ease;
 
-  &:hover { color: var(--accent-hover); }
+  &:hover {
+    color: var(--accent-hover);
+  }
 }
 
-ul, ol {
+ul,
+ol {
   padding-left: 0;
   margin: 1rem 0;
 }
@@ -142,7 +164,9 @@ li {
     text-decoration: none;
     letter-spacing: -0.01em;
 
-    &:hover { color: var(--accent); }
+    &:hover {
+      color: var(--accent);
+    }
   }
 
   nav {
@@ -157,7 +181,9 @@ li {
       text-transform: uppercase;
       letter-spacing: 0.05em;
 
-      &:hover { color: var(--accent); }
+      &:hover {
+        color: var(--accent);
+      }
     }
   }
 }
@@ -199,7 +225,10 @@ li {
 
     &:first-child {
       padding-top: 0;
-      &::before { top: 0.5rem; }
+
+      &::before {
+        top: 0.5rem;
+      }
     }
 
     .title {
@@ -211,7 +240,10 @@ li {
       a {
         color: var(--text);
         text-decoration: none;
-        &:hover { color: var(--accent); }
+
+        &:hover {
+          color: var(--accent);
+        }
       }
     }
 
@@ -318,7 +350,9 @@ li {
 .resume {
   font-size: var(--size-base);
 
-  h1 { margin-bottom: 0.5rem; }
+  h1 {
+    margin-bottom: 0.5rem;
+  }
 
   section {
     margin-bottom: 2.5rem;
@@ -350,7 +384,9 @@ li {
   overflow: hidden;
   transition: transform 0.2s ease;
 
-  &:hover { transform: translateY(-4px); }
+  &:hover {
+    transform: translateY(-4px);
+  }
 
   img {
     width: 100%;
@@ -384,7 +420,8 @@ li {
     background: white;
   }
 
-  .site-header, .site-footer {
+  .site-header,
+  .site-footer {
     display: none;
   }
 
