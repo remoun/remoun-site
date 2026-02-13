@@ -24,32 +24,147 @@ const { title, description = "Date Remoun" } = Astro.props;
   @import '../styles/global.css';
 
   :root {
-    --love-accent: #e67e22;
-    --love-accent-soft: #fdf2e9;
+    --love-accent: #3063c7;
+    --love-accent-soft: #f0f4ff;
+    --love-accent-link: #4a7ee0;
     --love-card-bg: #ffffff;
     --love-border-radius: 16px;
-    --love-shadow: 0 4px 20px rgba(230, 126, 34, 0.08);
+    --love-shadow: 0 4px 20px rgba(48, 99, 199, 0.08);
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --love-card-bg: #251f1c;
-      --love-accent-soft: #2d241e;
+      --love-card-bg: #1a1c23;
+      --love-accent-soft: #1e2433;
+      --love-accent-link: #6a9eff;
       --love-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     }
   }
 
   body {
     background-color: var(--bg);
-    background-image: 
-      radial-gradient(circle at 2px 2px, var(--border) 1px, transparent 0);
+    text-align: left;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  /* Add a slight opacity to the background pattern to make it even softer */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(circle at 2px 2px, var(--love-accent) 1px, transparent 0);
     background-size: 32px 32px;
+    opacity: 0.15;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body::before {
+      opacity: 0.1;
+    }
+  }
+
+  a {
+    color: var(--love-accent-link);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+  }
+
+  a:hover {
+    color: var(--love-accent);
+  }
+
+  p, li, .testimonial, .read-me-item {
+    text-align: left;
   }
 
   .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 4rem 1.5rem;
+    padding: 1rem 1.5rem;
+  }
+
+  /* Generic content block for consistent backgrounding */
+  .content-block {
+    background: var(--love-card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--love-border-radius);
+    padding: 2rem;
+    margin: 2.5rem 0;
+    box-shadow: var(--love-shadow);
+    text-align: left;
+  }
+
+  .content-block p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Site header for Love page */
+  .love-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .love-header .logo {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: var(--love-accent);
+    text-decoration: none;
+    letter-spacing: -0.04em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .love-header .logo::before {
+    content: '💙';
+    font-size: 1.2rem;
+  }
+
+  .love-header nav {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .love-header nav a {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .love-header nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--love-accent);
+    transition: width 0.2s ease;
+  }
+
+  .love-header nav a:hover {
+    color: var(--love-accent);
+  }
+
+  .love-header nav a:hover::after {
+    width: 100%;
   }
 
   /* Intro section */
@@ -76,15 +191,22 @@ const { title, description = "Date Remoun" } = Astro.props;
     color: var(--text);
     font-weight: 800;
     letter-spacing: -0.05em;
+    text-wrap: balance;
   }
 
   .intro .tagline-container {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    border-left: 3px solid var(--accent);
+    border-left: 3px solid var(--love-accent);
     padding-left: 1.5rem;
     margin-top: 2rem;
+    animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
   }
 
   .intro .tagline {
@@ -95,6 +217,11 @@ const { title, description = "Date Remoun" } = Astro.props;
     margin: 0;
     opacity: 0.9;
     line-height: 1.4;
+    transition: color 0.3s ease;
+  }
+
+  .intro .tagline:hover {
+    color: var(--love-accent);
   }
 
   .intro-visual {
@@ -102,6 +229,7 @@ const { title, description = "Date Remoun" } = Astro.props;
     display: flex;
     justify-content: center;
     align-items: center;
+    perspective: 1000px;
   }
 
   .hero-polaroid {
@@ -114,18 +242,26 @@ const { title, description = "Date Remoun" } = Astro.props;
     max-width: 320px;
     position: relative;
     z-index: 1;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .hero-polaroid:hover {
+    transform: rotate(0deg) translateY(-10px) scale(1.05);
+    box-shadow: 0 30px 60px rgba(48, 99, 199, 0.2);
+  }
+
+  .hero-polaroid img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    display: block;
   }
 
   .hero-polaroid::before {
-    content: '👋';
-    display: flex;
-    aspect-ratio: 1;
-    background: var(--love-warm-gray);
-    margin-bottom: 1rem;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    border-radius: 4px;
+    display: none;
   }
 
   .hero-polaroid::after {
@@ -154,7 +290,7 @@ const { title, description = "Date Remoun" } = Astro.props;
 
   /* Greeting */
   .greeting {
-    text-align: left;
+    text-align: center;
     margin-bottom: 4rem;
     font-size: 1.1rem;
   }
@@ -163,6 +299,7 @@ const { title, description = "Date Remoun" } = Astro.props;
     background: var(--love-accent-soft);
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.6rem 1.25rem;
     border-radius: 100px;
@@ -191,7 +328,7 @@ const { title, description = "Date Remoun" } = Astro.props;
   }
 
   /* Photo placeholders - Polaroid Style */
-  .photo-placeholder {
+  .photo-placeholder, .photo-card {
     background: white;
     padding: 1rem 1rem 3rem;
     box-shadow: var(--love-shadow);
@@ -202,12 +339,31 @@ const { title, description = "Date Remoun" } = Astro.props;
     transition: transform 0.3s ease;
   }
 
-  .photo-placeholder:nth-of-type(even) {
+  .photo-placeholder:nth-of-type(even), .photo-card:nth-of-type(even) {
     transform: rotate(1.5deg);
   }
 
-  .photo-placeholder:hover {
+  .photo-placeholder:hover, .photo-card:hover {
     transform: rotate(0deg) scale(1.02);
+  }
+
+  .photo-card img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .photo-card::after {
+    content: attr(data-caption);
+    display: block;
+    text-align: center;
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
   }
 
   .photo-placeholder::before {
@@ -223,7 +379,7 @@ const { title, description = "Date Remoun" } = Astro.props;
   }
 
   @media (prefers-color-scheme: dark) {
-    .photo-placeholder {
+    .photo-placeholder, .photo-card {
       background: #2d241e;
     }
     .photo-placeholder::before {
@@ -263,6 +419,12 @@ const { title, description = "Date Remoun" } = Astro.props;
     box-shadow: var(--love-shadow);
     position: relative;
     overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .note-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(48, 99, 199, 0.12);
   }
 
   .note-box::before {
@@ -272,36 +434,84 @@ const { title, description = "Date Remoun" } = Astro.props;
     right: 1rem;
     opacity: 0.2;
     font-size: 1.5rem;
+    transition: transform 0.5s ease;
+  }
+
+  .note-box:hover::before {
+    transform: rotate(20deg) scale(1.2);
+    opacity: 0.4;
+  }
+
+  .note-box.casual-note {
+    border: 2px solid var(--love-accent);
+    background: var(--love-accent-soft);
+  }
+
+  .note-box.casual-note::before {
+    content: '🍃';
+    opacity: 0.3;
   }
 
   /* Lists */
-  .about-list, .enjoy-list, .not-list {
+  ul {
     list-style: none;
     padding: 0;
-    display: grid;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    margin: 1rem 0;
   }
 
-  .about-list li, .enjoy-list li, .not-list li {
+  li {
     background: var(--love-card-bg);
-    padding: 1rem 1.5rem;
+    padding: 0.75rem 1.25rem;
     border-radius: 12px;
     border: 1px solid var(--border);
     margin: 0;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
+    display: block;
+    list-style: none;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    text-align: left;
   }
 
-  .about-list li::before, .enjoy-list li::before, .not-list li::before {
-    content: '→';
-    color: var(--accent);
-    font-weight: bold;
-    position: static;
+  /* Re-implement arrow for block layout */
+  .container ul li::before {
+    content: '→' !important;
+    display: inline-block !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    background: none !important;
+    color: var(--love-accent) !important;
+    margin-right: 0.75rem !important;
+    font-family: var(--font-display) !important;
+    font-weight: bold !important;
+    line-height: inherit !important;
+    border-radius: 0 !important;
+    flex-shrink: 0 !important;
   }
 
-  .enjoy-list {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  /* Ensure no other pseudo-elements are interfering */
+  li::after {
+    display: none !important;
+  }
+
+  /* Specific grid for things I enjoy */
+  .enjoy-grid ul {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+    gap: 0.75rem !important;
+    flex-direction: row !important;
+  }
+
+  li strong {
+    margin-right: 0.35rem;
+    display: inline;
   }
 
   /* Read-me grid */
@@ -325,7 +535,7 @@ const { title, description = "Date Remoun" } = Astro.props;
     font-family: var(--font-display);
     font-size: 1.1rem;
     margin-bottom: 0.75rem;
-    color: var(--accent);
+    color: var(--love-accent);
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -348,7 +558,7 @@ const { title, description = "Date Remoun" } = Astro.props;
     left: 2rem;
     font-size: 5rem;
     font-family: var(--font-display);
-    color: var(--accent);
+    color: var(--love-accent);
     opacity: 0.1;
     line-height: 1;
   }
@@ -367,23 +577,23 @@ const { title, description = "Date Remoun" } = Astro.props;
     content: '';
     width: 20px;
     height: 2px;
-    background: var(--accent);
+    background: var(--love-accent);
     display: block;
   }
 
   /* CTA */
   .cta-section {
     background: var(--love-accent-soft);
-    padding: 4rem 2rem;
+    padding: 2rem;
     border-radius: var(--love-border-radius);
     text-align: center;
     margin: 4rem 0;
-    border: 2px dashed var(--accent);
+    border: 2px dashed var(--love-accent);
   }
 
   .cta-button {
     display: inline-block;
-    background: var(--accent);
+    background: var(--love-accent);
     color: white;
     padding: 1.25rem 3rem;
     border-radius: 100px;
@@ -392,13 +602,13 @@ const { title, description = "Date Remoun" } = Astro.props;
     font-size: 1.25rem;
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 10px 20px rgba(230, 126, 34, 0.2);
+    box-shadow: 0 10px 20px rgba(48, 99, 199, 0.2);
   }
 
   .cta-button:hover {
-    background: var(--accent-hover);
+    background: #254da3;
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 30px rgba(230, 126, 34, 0.3);
+    box-shadow: 0 15px 30px rgba(48, 99, 199, 0.3);
     color: white;
   }
 
@@ -416,7 +626,7 @@ const { title, description = "Date Remoun" } = Astro.props;
     display: block;
     width: 60px;
     height: 4px;
-    background: var(--accent);
+    background: var(--love-accent);
     margin: 0.5rem auto 0;
     border-radius: 2px;
   }
@@ -442,6 +652,14 @@ const { title, description = "Date Remoun" } = Astro.props;
 
 <body>
   <div class="container">
+    <header class="love-header">
+      <a href="/" class="logo">remoun.love</a>
+      <nav>
+        <a href="#who-i-am">Who I Am</a>
+        <a href="#what-im-looking-for">Looking For</a>
+        <a href="#reach-out">Reach Out</a>
+      </nav>
+    </header>
     <main>
       <slot />
     </main>
