@@ -166,6 +166,29 @@ const { title, description = "Date Remoun" } = Astro.props;
     opacity: 0.3;
   }
 
+  /* Manifesto Style */
+  .manifesto {
+    background: var(--love-accent-soft);
+    border-left: 4px solid var(--love-accent);
+    padding: 2rem;
+    margin: 3rem 0;
+    border-radius: 0 var(--love-border-radius) var(--love-border-radius) 0;
+  }
+
+  .manifesto h3 {
+    margin-top: 0;
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: 1.8rem;
+    color: var(--love-accent);
+  }
+
+  .manifesto p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
   /* Photo Cards & Placeholders */
   .photo-placeholder, .photo-card, .hero-polaroid {
     background: white !important;
@@ -746,7 +769,7 @@ const { title, description = "Date Remoun" } = Astro.props;
       <a href="/" class="logo">Remoun</a>
       <nav>
         <a href="#who-i-am">Who</a>
-        <a href="#what-im-looking-for">Looking</a>
+        <a href="#life-design">Looking</a>
         <a href="#reach-out">Reach Out</a>
       </nav>
     </header>
