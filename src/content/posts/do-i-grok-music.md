@@ -1,7 +1,7 @@
 ---
 title: "Do I Grok Music?"
 description: "I can't read music or think about it in numbers. But dancing has been teaching me something I didn't recognize as understanding."
-pubDate: 2026-02-19
+date: 2026-02-19
 tags: ["dance", "music", "learning", "embodiment"]
 ---
 
