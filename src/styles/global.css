@@ -31,26 +31,13 @@
   --max-width: 64rem;
 }
 
+/* 
+   DARK MODE ENGINE
+   We use the [data-theme="dark"] attribute to control dark mode.
+   This allows manual overrides to work reliably.
+*/
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #f8f9fc;
-    --bg-secondary: #f0f4ff;
-    --text: #1a1c23;
-    --text-secondary: #4a5568;
-    --text-tertiary: #718096;
-    --surface: #f8faff;
-    --accent: #3063c7;
-    --accent-hover: #254da3;
-    --border: #e2e8f0;
-    --love-pink: #f0f4ff;
-    --love-red: #3063c7;
-    --love-cream: #f8f9fc;
-    --love-warm-gray: #f7fafc;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]):not([data-mood]) {
     --bg: #0f1117;
     --bg-secondary: #1a1c23;
     --text: #f3f4f6;
@@ -61,6 +48,19 @@
     --accent: #4a7ee0;
     --accent-hover: #3063c7;
   }
+}
+
+/* Manual dark theme override */
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --bg-secondary: #1a1c23;
+  --text: #f3f4f6;
+  --text-secondary: #a0aec0;
+  --text-tertiary: #718096;
+  --surface: #1e2433;
+  --border: #2d3748;
+  --accent: #4a7ee0;
+  --accent-hover: #3063c7;
 }
 
 *,
@@ -78,7 +78,7 @@ body {
   font-size: var(--size-base);
   line-height: var(--line-height);
   color: var(--text);
-  background: var(--bg);
+  background-color: var(--bg);
   margin: 0;
   padding: 0;
   -webkit-font-smoothing: antialiased;

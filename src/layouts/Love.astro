@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 interface Props {
   title: string;
   description?: string;
@@ -18,649 +20,530 @@ const { title, description = "Date Remoun" } = Astro.props;
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
   <title>{title}</title>
+  <script is:inline>
+    // Immediate theme initialization to prevent FOUC
+    (function() {
+      const savedMood = localStorage.getItem('remoun-mood') || 'rainbow';
+      document.documentElement.setAttribute('data-mood', savedMood);
+      document.documentElement.setAttribute('data-theme', savedMood === 'rainbow' ? 'light' : 'dark');
+    })();
+  </script>
 </head>
 
 <style is:global>
-  @import '../styles/global.css';
-
   :root {
-    --love-accent: #3063c7;
-    --love-accent-soft: #f0f4ff;
-    --love-accent-link: #4a7ee0;
-    --love-card-bg: #ffffff;
-    --love-border-radius: 16px;
-    --love-shadow: 0 4px 20px rgba(48, 99, 199, 0.08);
+    --love-border-radius: 24px;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --love-card-bg: #1a1c23;
-      --love-accent-soft: #1e2433;
-      --love-accent-link: #6a9eff;
-      --love-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  /* 
+     THEME INDEPENDENCE ENGINE
+     We use high specificity and !important for core variables 
+     to ensure the mood always wins against global dark mode.
+  */
+  
+  /* Rainbow Mood (Light) */
+  html[data-mood="rainbow"] {
+    color-scheme: light !important;
+    --mood-bg: #faf9f7 !important;
+    --mood-text: #1a1a1a !important;
+    --mood-accent: #3063c7 !important;
+    --mood-card-bg: #ffffff !important;
+    --mood-border: #e5e3df !important;
+    --mood-accent-soft: #f0f4ff !important;
+    --mood-shadow: 0 4px 20px rgba(48, 99, 199, 0.08) !important;
+    --mood-font-display: 'Instrument Sans', sans-serif !important;
+    
+    /* Override global.css variables */
+    --bg: #faf9f7 !important;
+    --text: #1a1a1a !important;
+    --border: #e5e3df !important;
+    --surface: #f0eee9 !important;
+    --accent: #3063c7 !important;
+  }
+
+  /* Wednesday Mood (Dark) */
+  html[data-mood="wednesday"] {
+    color-scheme: dark !important;
+    --mood-bg: #0a0a0a !important;
+    --mood-text: #e0e0e0 !important;
+    --mood-accent: #ffffff !important;
+    --mood-card-bg: #151515 !important;
+    --mood-border: #333333 !important;
+    --mood-accent-soft: #1a1a1a !important;
+    --mood-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    --mood-font-display: 'Newsreader', serif !important;
+
+    /* Override global.css variables */
+    --bg: #0a0a0a !important;
+    --text: #e0e0e0 !important;
+    --border: #333333 !important;
+    --surface: #151515 !important;
+    --accent: #ffffff !important;
+  }
+
+  /* Shared styles using nesting */
+  html[data-mood] {
+    /* Force background and text colors */
+    &, & body.love-body {
+      background-color: var(--mood-bg) !important;
+      background-image: none !important;
+      color: var(--mood-text) !important;
+      transition: background-color 0.5s ease, color 0.5s ease;
     }
-  }
 
-  body {
-    background-color: var(--bg);
-    text-align: left;
-    background-attachment: fixed;
-    position: relative;
-  }
-
-  /* Remove background pattern completely */
-  body::before {
-    display: none;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    body::before {
-      opacity: 0.1;
+    /* Wednesday-specific photo tweaks */
+    &[data-mood="wednesday"] {
+      .photo-card, .hero-polaroid {
+        filter: grayscale(0.8) contrast(1.1);
+        transition: filter 0.5s ease;
+        &:hover { filter: grayscale(0) contrast(1); }
+      }
+      .rainbow-text { color: #a0aec0 !important; }
+      .mood-slider { transform: translateX(48px); }
     }
-  }
 
-  a {
-    color: var(--love-accent-link);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 2px;
-    transition: color 0.2s ease;
-  }
-
-  a:hover {
-    color: var(--love-accent);
-  }
-
-  /* Base Typography & Alignment */
-  p, li, .testimonial, .read-me-item {
-    text-align: left;
-  }
-
-  b, strong {
-    color: var(--love-accent);
-  }
-
-  li b, li strong {
-    margin-right: 0.35rem;
-    display: inline;
-  }
-
-  /* Shared Card Styles */
-  .content-block,
-  .note-box,
-  .read-me-item,
-  .testimonial,
-  .photo-placeholder,
-  .photo-card,
-  .hero-polaroid {
-    background: var(--love-card-bg);
-    border: 1px solid var(--border);
-    border-radius: var(--love-border-radius);
-    box-shadow: var(--love-shadow);
-    text-align: left;
-  }
-
-  .content-block,
-  .note-box,
-  .testimonial {
-    padding: 1.5rem 2rem;
-    margin: 2rem 0;
-  }
-
-  .read-me-item {
-    padding: 1.25rem 1.5rem;
-  }
-
-  .read-me-item,
-  .testimonial,
-  .photo-placeholder,
-  .photo-card,
-  .hero-polaroid {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .note-box:hover,
-  .read-me-item:hover,
-  .testimonial:hover,
-  .photo-placeholder:hover,
-  .photo-card:hover,
-  .hero-polaroid:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 30px rgba(48, 99, 199, 0.12);
-  }
-
-  /* Specific Card Overrides */
-  .content-block p:last-child,
-  .note-box p:last-child,
-  .testimonial p:last-child {
-    margin-bottom: 0;
-  }
-
-  .note-box {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .note-box::before {
-    content: '✨';
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    opacity: 0.2;
-    font-size: 1.5rem;
-    transition: transform 0.5s ease;
-  }
-
-  .note-box:hover::before {
-    transform: rotate(20deg) scale(1.2);
-    opacity: 0.4;
-  }
-
-  .note-box.casual-note {
-    border: 2px solid var(--love-accent);
-    background: var(--love-accent-soft);
-  }
-
-  .note-box.casual-note::before {
-    content: '🍃';
-    opacity: 0.3;
-  }
-
-  /* Manifesto Style */
-  .manifesto {
-    background: var(--love-accent-soft);
-    border-left: 4px solid var(--love-accent);
-    padding: 2rem;
-    margin: 3rem 0;
-    border-radius: 0 var(--love-border-radius) var(--love-border-radius) 0;
-  }
-
-  .manifesto h3 {
-    margin-top: 0;
-    font-family: 'Newsreader', serif;
-    font-style: italic;
-    font-size: 1.8rem;
-    color: var(--love-accent);
-  }
-
-  .manifesto p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin-bottom: 0;
-  }
-
-  /* Photo Cards & Placeholders */
-  .photo-placeholder, .photo-card, .hero-polaroid {
-    background: white !important;
-    padding: 1rem;
-    transform: rotate(-1deg);
-    margin: 2rem auto;
-    width: 100%;
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    border: 1px solid #e5e3df !important;
-    box-sizing: border-box;
-  }
-
-  .photo-placeholder[data-caption], .photo-card[data-caption], .hero-polaroid[data-caption] {
-    padding-bottom: 1.5rem;
-  }
-
-  .hero-polaroid {
-    transform: rotate(3deg);
-    max-width: 320px;
-    position: relative;
-  }
-
-  .photo-placeholder:nth-of-type(even), .photo-card:nth-of-type(even) {
-    transform: rotate(1.5deg);
-  }
-
-  .photo-placeholder:hover, .photo-card:hover, .hero-polaroid:hover {
-    transform: rotate(0deg) scale(1.02);
-  }
-
-  .photo-card img, .hero-polaroid img {
-    width: 100%;
-    border-radius: 4px;
-    margin-bottom: 0.75rem;
-    display: block;
-    background: #f0f0f0;
-    flex-shrink: 0;
-  }
-
-  .photo-card img {
-    height: 300px;
-    object-fit: cover;
-  }
-
-  .hero-polaroid img {
-    height: auto;
-    object-fit: contain;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .photo-card img, .hero-polaroid img, .photo-placeholder::before {
-      background: #eee;
+    /* Shared element overrides */
+    h1, h2, h3, h4, p, li, span, 
+    div:not(.mood-toggle-container, .mood-toggle, .mood-slider, .mood-btn) {
+      color: var(--mood-text) !important;
     }
-  }
 
-  .photo-card[data-caption]::after, .photo-placeholder[data-caption]::after, .hero-polaroid[data-caption]::after {
-    content: attr(data-caption);
-    display: block;
-    text-align: center;
-    font-family: 'Newsreader', serif;
-    font-style: italic;
-    color: #555 !important;
-    font-size: 1.1rem;
-    margin-top: auto;
-    padding-top: 0.5rem;
-  }
-
-  .photo-card[data-caption]::after, .photo-placeholder[data-caption]::after {
-    font-size: 0.9rem;
-  }
-
-  .hero-polaroid::before {
-    display: none;
-  }
-
-  .photo-placeholder::before {
-    content: '📸';
-    display: flex;
-    aspect-ratio: 1;
-    background: var(--love-warm-gray);
-    margin-bottom: 1rem;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    border-radius: 4px;
-  }
-
-  .photo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
-    gap: 2rem;
-    margin: 3rem 0;
-    align-items: stretch;
-  }
-
-  .photo-grid .photo-card, .photo-grid .photo-placeholder {
-    margin: 0;
-    max-width: none;
-    height: 100%;
-  }
-
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem 1.5rem;
-  }
-
-  /* Site header for Love page */
-  .love-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .love-header .logo {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--love-accent);
-    text-decoration: none;
-    letter-spacing: -0.04em;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .love-header .logo::before {
-    content: '💙';
-    font-size: 1.2rem;
-  }
-
-  .love-header nav {
-    display: flex;
-    gap: 2rem;
-  }
-
-  .love-header nav a {
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text);
-    text-decoration: none;
-    transition: all 0.2s ease;
-    position: relative;
-  }
-
-  .love-header nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--love-accent);
-    transition: width 0.2s ease;
-  }
-
-  .love-header nav a:hover {
-    color: var(--love-accent);
-  }
-
-  .love-header nav a:hover::after {
-    width: 100%;
-  }
-
-  /* Intro section */
-  .intro {
-    text-align: left;
-    padding: 4rem 0 6rem;
-    position: relative;
-    max-width: 900px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
-    gap: 3rem;
-    align-items: center;
-  }
-
-  .intro-content {
-    z-index: 2;
-  }
-
-  .intro h1 {
-    font-size: clamp(2.5rem, 6vw, 3.5rem);
-    line-height: 1.05;
-    margin-bottom: 2rem;
-    color: var(--text);
-    font-weight: 800;
-    letter-spacing: -0.05em;
-    text-wrap: balance;
-  }
-
-  .intro .tagline-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    border-left: 3px solid var(--love-accent);
-    padding-left: 1.5rem;
-    margin-top: 2rem;
-    animation: slideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(-20px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  .intro .tagline {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    margin: 0;
-    opacity: 0.9;
-    line-height: 1.4;
-    transition: color 0.3s ease;
-  }
-
-  .intro .tagline:hover {
-    color: var(--love-accent);
-  }
-
-  .intro-visual {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    perspective: 1000px;
-  }
-
-  .hero-decoration {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, var(--love-accent-soft) 0%, transparent 70%);
-    z-index: 0;
-    top: 0;
-    left: 0;
-    border-radius: 50%;
-  }
-
-  /* Greeting */
-  .greeting {
-    text-align: center;
-    margin-bottom: 4rem;
-    font-size: 1.1rem;
-  }
-
-  .greeting p {
-    background: var(--love-accent-soft);
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1.25rem;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    font-weight: 500;
-  }
-
-  @media (max-width: 850px) {
-    .intro {
-      grid-template-columns: 1fr;
-      text-align: center;
-      padding: 2rem 0 4rem;
-      gap: 4rem;
+    p:last-child {
+      margin-bottom: 0;
     }
-    .intro .tagline-container {
-      border-left: none;
-      padding-left: 0;
+
+    b, strong, a { color: var(--mood-accent) !important; }
+
+    /* Shared Card Styles */
+    .content-block, .note-box, .read-me-item, .testimonial, 
+    .photo-placeholder, .photo-card, .hero-polaroid, .oscillation-centerpiece {
+      background: var(--mood-card-bg) !important;
+      color: var(--mood-text) !important;
+      border: 1px solid var(--mood-border) !important;
+      border-radius: var(--love-border-radius);
+      box-shadow: var(--mood-shadow) !important;
+      text-align: left;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, border-color 0.5s ease;
+    }
+
+    .note-box.casual-note, .manifesto, .greeting p {
+      background: var(--mood-accent-soft) !important;
+      color: var(--mood-text) !important;
+    }
+
+    .note-box.casual-note { 
+      border: 2px solid var(--mood-accent) !important;
+      padding: 2rem;
+    }
+
+    .manifesto {
+      border-left: 4px solid var(--mood-accent) !important;
+      padding: 2.5rem;
+      margin: 4rem 0;
+      border-radius: 0 var(--love-border-radius) var(--love-border-radius) 0;
+    }
+
+    .greeting p {
+      border: 1px solid var(--mood-border) !important;
+      padding: 0.8rem 1.5rem;
+      border-radius: 100px;
+      display: inline-flex;
       align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      margin-bottom: 3rem;
     }
-    .hero-polaroid {
-      margin: 0 auto;
-    }
-    .greeting {
-      text-align: center;
-    }
-  }
 
-  /* Lists */
-  ul {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    margin: 1rem 0;
-  }
-
-  li {
-    background: var(--love-card-bg);
-    padding: 0.75rem 1.25rem;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    margin: 0;
-    display: block;
-    list-style: none;
-    width: 100%;
-    position: relative;
-    overflow: hidden;
-    text-align: left;
-  }
-
-  /* Re-implement arrow for block layout */
-  .container ul li::before {
-    content: '→' !important;
-    display: inline-block !important;
-    position: relative !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: auto !important;
-    height: auto !important;
-    background: none !important;
-    color: var(--love-accent) !important;
-    margin-right: 0.75rem !important;
-    font-family: var(--font-display) !important;
-    font-weight: bold !important;
-    line-height: inherit !important;
-    border-radius: 0 !important;
-    flex-shrink: 0 !important;
-  }
-
-  /* Ensure no other pseudo-elements are interfering */
-  li::after {
-    display: none !important;
-  }
-
-  /* Specific grid for things I enjoy */
-  .enjoy-grid ul {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)) !important;
-    gap: 0.75rem !important;
-    flex-direction: row !important;
-  }
-
-  /* Read-me grid */
-  .read-me-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin: 2.5rem 0;
-  }
-
-  .read-me-item strong {
-    display: block;
-    font-family: var(--font-display);
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-    color: var(--love-accent);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* Testimonials */
-  .testimonial {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .testimonial::before {
-    content: '✨';
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    font-size: 1.5rem;
-    color: var(--love-accent);
-    opacity: 0.2;
-    line-height: 1;
-    transition: transform 0.5s ease;
-  }
-
-  .testimonial:hover::before {
-    transform: rotate(20deg) scale(1.2);
-    opacity: 0.4;
-  }
-
-  .testimonial-author {
-    margin-top: 1.5rem !important;
-    font-family: var(--font-display);
-    font-weight: 600;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .testimonial-author::before {
-    content: '';
-    width: 20px;
-    height: 2px;
-    background: var(--love-accent);
-    display: block;
-  }
-
-  /* CTA */
-  .cta-section {
-    background: var(--love-accent-soft);
-    padding: 2rem;
-    border-radius: var(--love-border-radius);
-    text-align: center;
-    margin: 4rem 0;
-    border: 2px dashed var(--love-accent);
-  }
-
-  .cta-button {
-    display: inline-block;
-    background: var(--love-accent);
-    color: white;
-    padding: 1.5rem 3rem;
-    border-radius: 100px;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.25rem;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 10px 20px rgba(48, 99, 199, 0.2);
-  }
-
-  .cta-button:hover {
-    background: #254da3;
-    transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 15px 30px rgba(48, 99, 199, 0.3);
-    color: white;
-  }
-
-  /* Typography tweaks */
-  h2 {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-top: 5rem;
-    margin-bottom: 2rem;
-    position: relative;
-  }
-
-  h2::after {
-    content: '';
-    display: block;
-    width: 60px;
-    height: 4px;
-    background: var(--love-accent);
-    margin: 0.5rem auto 0;
-    border-radius: 2px;
-  }
-
-  h3 {
-    font-size: 1.75rem;
-    margin-top: 3rem;
-    color: var(--text);
-  }
-
-  @media (max-width: 600px) {
-    .container {
-      padding: 2rem 1rem;
-    }
-    .read-me-grid {
-      grid-template-columns: 1fr;
-    }
-    .intro h1 {
-      font-size: 3rem;
-    }
-    .love-header {
+    /* Centerpiece Styles */
+    .oscillation-centerpiece {
+      margin: 4rem 0;
+      padding: 4rem 2rem;
+      position: relative;
+      overflow: hidden;
+      display: flex;
       flex-direction: column;
-      gap: 1rem;
-      text-align: center;
+      gap: 1.5rem;
     }
-    .love-header nav {
-      gap: 1rem;
+
+    .quote-line {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      line-height: 1.2;
+      font-weight: 700;
+      &.wednesday-text {
+        font-family: 'Newsreader', serif;
+        font-style: italic;
+        align-self: flex-start;
+        text-align: left;
+      }
+      &.rainbow-text {
+        font-family: 'Instrument Sans', sans-serif;
+        color: #3063c7 !important;
+        align-self: flex-end;
+        text-align: right;
+      }
+    }
+
+    /* Mood Toggle */
+    .mood-toggle-container {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.75rem;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+
+      &.highlight {
+        transform: scale(1.3);
+        filter: drop-shadow(0 0 15px var(--mood-accent));
+        .mood-toggle {
+          border-color: var(--mood-accent) !important;
+          border-width: 2px !important;
+        }
+      }
+    }
+
+    .mood-info-link {
+      width: 24px;
+      height: 24px;
+      background: var(--mood-card-bg);
+      border: 1px solid var(--mood-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--mood-text) !important;
+      opacity: 0.6;
+      transition: all 0.2s ease;
+      &:hover {
+        opacity: 1;
+        transform: scale(1.1);
+        border-color: var(--mood-accent);
+      }
+    }
+
+    .mood-toggle {
+      background: var(--mood-card-bg) !important;
+      border: 1px solid var(--mood-border) !important;
+      padding: 0.5rem;
+      border-radius: 100px;
+      display: flex;
+      gap: 0.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .mood-btn {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+    }
+
+    .mood-slider {
+      position: absolute;
+      top: 0.5rem;
+      left: 0.5rem;
+      width: 40px;
+      height: 40px;
+      background: var(--mood-accent) !important;
+      border-radius: 50%;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1;
+    }
+
+    /* Button color logic */
+    &[data-mood="rainbow"] .mood-btn[data-set-mood="rainbow"],
+    &[data-mood="wednesday"] .mood-btn[data-set-mood="wednesday"] {
+      color: var(--mood-bg) !important;
+    }
+    &[data-mood="rainbow"] .mood-btn[data-set-mood="wednesday"],
+    &[data-mood="wednesday"] .mood-btn[data-set-mood="rainbow"] {
+      color: var(--mood-text) !important;
+    }
+  }
+
+  /* Shared Layout & Utility Styles */
+  html[data-mood] {
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+    }
+
+    .love-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--mood-border) !important;
+      .logo {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: var(--mood-accent) !important;
+        text-decoration: none;
+        letter-spacing: -0.04em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      nav {
+        display: flex;
+        gap: 2rem;
+        a {
+          font-family: var(--font-display);
+          font-size: 1rem;
+          font-weight: 700;
+          text-decoration: none;
+          transition: all 0.2s ease;
+          position: relative;
+          color: var(--mood-text) !important;
+          &::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--mood-accent) !important;
+            transition: width 0.2s ease;
+          }
+          &:hover::after { width: 100% !important; }
+        }
+      }
+    }
+
+    .intro {
+      text-align: left;
+      padding: 4rem 0 6rem;
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+      align-items: center;
+      h1 {
+        font-size: clamp(2.5rem, 6vw, 3.5rem);
+        line-height: 1.05;
+        margin-bottom: 2rem;
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        text-wrap: balance;
+      }
+      .tagline-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        border-left: 3px solid var(--mood-accent) !important;
+        padding-left: 1.5rem;
+        margin-top: 2rem;
+      }
+      .tagline {
+        font-family: var(--font-display);
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin: 0;
+        opacity: 0.9;
+        line-height: 1.4;
+      }
+      .intro-visual {
+        max-width: 320px;
+        width: 100%;
+        margin: 0 auto;
+        img {
+          width: 100%;
+          height: auto;
+        }
+      }
+    }
+
+    li {
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      margin: 0.5rem 0;
+      display: block;
+      list-style: none;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+      &::before {
+        content: '→' !important;
+        display: inline-block !important;
+        position: relative !important;
+        color: var(--mood-accent) !important;
+        margin-right: 0.75rem !important;
+        font-family: var(--font-display) !important;
+        font-weight: bold !important;
+        flex-shrink: 0 !important;
+      }
+    }
+
+    .read-me-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin: 2.5rem 0;
+      .read-me-item strong {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+        color: var(--mood-accent) !important;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+    }
+
+    .testimonial {
+      margin: 2rem 0;
+      padding: 2rem;
+      &::before {
+        content: '✨' !important;
+        position: absolute !important;
+        top: 1rem !important;
+        left: 1rem !important;
+        font-size: 1.5rem !important;
+        color: var(--mood-accent) !important;
+        opacity: 0.2 !important;
+        line-height: 1 !important;
+        transition: transform 0.5s ease;
+      }
+      .testimonial-author {
+        margin-top: 1.5rem !important;
+        font-family: var(--font-display);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        &::before {
+          content: '' !important;
+          width: 20px !important;
+          height: 2px !important;
+          background: var(--mood-accent) !important;
+          display: block !important;
+        }
+      }
+    }
+
+    .cta-section {
+      padding: 3rem 2rem;
+      border-radius: var(--love-border-radius);
+      text-align: center;
+      margin: 4rem 0;
+      border: 2px dashed var(--mood-accent) !important;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--mood-accent) !important;
+      color: var(--mood-bg) !important;
+      padding: 1.5rem 3rem;
+      border-radius: 100px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.25rem;
+      text-decoration: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      &:hover {
+        transform: translateY(-5px) scale(1.05) !important;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2) !important;
+      }
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-top: 5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      &::after {
+        content: '' !important;
+        display: block !important;
+        width: 60px !important;
+        height: 4px !important;
+        background: var(--mood-accent) !important;
+        margin: 0.5rem auto 0;
+        border-radius: 2px !important;
+      }
+    }
+
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+      align-items: stretch;
+    }
+
+    .photo-card, .hero-polaroid {
+      background: white !important;
+      padding: 1rem !important;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e5e3df !important;
+      margin-bottom: 2rem;
+      img {
+        width: 100%;
+        border-radius: 4px;
+        margin-bottom: 0.75rem;
+        display: block;
+        background: #f0f0f0;
+        flex-shrink: 0;
+        cursor: zoom-in;
+      }
+      &[data-caption]::after {
+        content: attr(data-caption) !important;
+        display: block !important;
+        text-align: center;
+        font-family: 'Newsreader', serif;
+        font-style: italic;
+        color: #555 !important;
+        font-size: 0.9rem;
+        margin-top: auto;
+        padding-top: 0.5rem;
+      }
+    }
+
+    /* Vibe Notes Section */
+    .vibe-notes {
+      margin-top: 6rem;
+      padding: 3rem;
+      border-top: 1px solid var(--mood-border) !important;
+      font-size: 0.95rem;
+      color: var(--mood-text) !important;
+      opacity: 0.8;
+      h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+      .vibe-note {
+        margin-bottom: 1.5rem;
+        strong { color: var(--mood-accent) !important; }
+      }
     }
   }
 
@@ -680,42 +563,66 @@ const { title, description = "Date Remoun" } = Astro.props;
     cursor: zoom-out;
     opacity: 0;
     transition: opacity 0.3s ease;
-  }
-
-  #lightbox.active {
-    display: flex;
-    opacity: 1;
-  }
-
-  #lightbox img {
-    max-width: 90%;
-    max-height: 85vh;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    border-radius: 4px;
-    transform: scale(0.9);
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-
-  #lightbox.active img {
-    transform: scale(1);
-  }
-
-  .lightbox-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 90%;
-    gap: 1rem;
-  }
-
-  .lightbox-caption {
-    color: white;
-    font-family: 'Newsreader', serif;
-    font-style: italic;
-    font-size: 1.2rem;
-    text-align: center;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    animation: fadeIn 0.3s ease forwards;
+    &.active {
+      display: flex;
+      opacity: 1;
+      img { transform: scale(1); }
+    }
+    img {
+      max-width: 90%;
+      max-height: 85vh;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      border-radius: 4px;
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .lightbox-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 90%;
+      gap: 1rem;
+    }
+    .lightbox-caption {
+      color: white !important;
+      font-family: 'Newsreader', serif;
+      font-style: italic;
+      font-size: 1.2rem;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      animation: fadeIn 0.3s ease forwards;
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white !important;
+      font-size: 2rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 10px;
+      line-height: 1;
+    }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white !important;
+      font-size: 3rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 20px;
+      opacity: 0.5;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      &:hover {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.1);
+      }
+      &.lightbox-prev { left: 10px; }
+      &.lightbox-next { right: 10px; }
+    }
   }
 
   @keyframes fadeIn {
@@ -723,47 +630,34 @@ const { title, description = "Date Remoun" } = Astro.props;
     to { opacity: 1; transform: translateY(0); }
   }
 
-  .lightbox-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: white;
-    font-size: 2rem;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 10px;
-    line-height: 1;
+  /* Responsive Adjustments */
+  @media (max-width: 850px) {
+    html[data-mood] .intro {
+      grid-template-columns: 1fr;
+      text-align: center;
+      padding: 2rem 0 4rem;
+      gap: 4rem;
+      .tagline-container {
+        border-left: none !important;
+        padding-left: 0 !important;
+        align-items: center;
+      }
+    }
   }
 
-  .lightbox-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: white;
-    font-size: 3rem;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 20px;
-    opacity: 0.5;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-
-  .lightbox-nav:hover {
-    opacity: 1;
-    transform: translateY(-50%) scale(1.1);
-  }
-
-  .lightbox-prev { left: 10px; }
-  .lightbox-next { right: 10px; }
-
-  .photo-card img, .hero-polaroid img {
-    cursor: zoom-in;
+  @media (max-width: 600px) {
+    html[data-mood] {
+      .read-me-grid { grid-template-columns: 1fr; }
+      .love-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+    }
   }
 </style>
 
-<body>
+<body class="love-body">
   <div class="container">
     <header class="love-header">
       <a href="/" class="logo">Remoun</a>
@@ -776,6 +670,15 @@ const { title, description = "Date Remoun" } = Astro.props;
     <main>
       <slot />
     </main>
+
+    <div class="mood-toggle-container">
+      <div class="mood-toggle" id="mood-toggle">
+        <div class="mood-slider"></div>
+        <button class="mood-btn" data-set-mood="rainbow" aria-label="Rainbow Mode">🌈</button>
+        <button class="mood-btn" data-set-mood="wednesday" aria-label="Wednesday Mode">🖤</button>
+      </div>
+      <a href="#vibe-check" class="mood-info-link" title="What is this?">?</a>
+    </div>
   </div>
 
   <div id="lightbox">
@@ -788,7 +691,31 @@ const { title, description = "Date Remoun" } = Astro.props;
     <button class="lightbox-nav lightbox-next" aria-label="Next">&rsaquo;</button>
   </div>
 
-  <script>
+  <script is:inline>
+    // Mood Toggle Logic
+    const moodToggle = document.getElementById('mood-toggle');
+    const moodBtns = moodToggle.querySelectorAll('.mood-btn');
+    
+    function setMood(mood) {
+      document.documentElement.setAttribute('data-mood', mood);
+      document.documentElement.setAttribute('data-theme', mood === 'rainbow' ? 'light' : 'dark');
+      localStorage.setItem('remoun-mood', mood);
+    }
+
+    moodBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        setMood(btn.getAttribute('data-set-mood'));
+      });
+    });
+
+    // Initialize mood
+    (function() {
+      const savedMood = localStorage.getItem('remoun-mood') || 'rainbow';
+      setMood(savedMood);
+    })();
+
+    // Lightbox Logic
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = lightbox.querySelector('img');
     const lightboxCaption = lightbox.querySelector('.lightbox-caption');
@@ -797,11 +724,8 @@ const { title, description = "Date Remoun" } = Astro.props;
 
     function updateLightbox() {
       const currentPhoto = photos[currentIndex];
+      if (!currentPhoto) return;
       lightboxImg.src = currentPhoto.src;
-      
-      // Try to find a caption: 
-      // 1. data-caption on the parent .photo-card
-      // 2. alt text on the image
       const parentCard = currentPhoto.closest('.photo-card, .hero-polaroid');
       const captionText = parentCard?.getAttribute('data-caption') || currentPhoto.alt;
       
@@ -858,6 +782,35 @@ const { title, description = "Date Remoun" } = Astro.props;
       if (e.key === 'ArrowRight') showNext();
       if (e.key === 'ArrowLeft') showPrev();
     });
+
+    // Intersection Observer for highlighting the mood toggle when the centerpiece is visible
+    function initObserver() {
+      const centerpiece = document.querySelector('.oscillation-centerpiece');
+      const toggleContainer = document.querySelector('.mood-toggle-container');
+
+      if (centerpiece && toggleContainer) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              toggleContainer.classList.add('highlight');
+            } else {
+              toggleContainer.classList.remove('highlight');
+            }
+          });
+        }, {
+          threshold: 0.3
+        });
+
+        observer.observe(centerpiece);
+      }
+    }
+
+    // Run on load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initObserver);
+    } else {
+      initObserver();
+    }
   </script>
 </body>
 </html>
