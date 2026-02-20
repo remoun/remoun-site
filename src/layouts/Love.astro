@@ -414,6 +414,9 @@ const { title, description = "Date Remoun" } = Astro.props;
         font-weight: bold !important;
         flex-shrink: 0 !important;
       }
+      &::after {
+        display: none !important;
+      }
     }
 
     .read-me-grid {
@@ -522,6 +525,18 @@ const { title, description = "Date Remoun" } = Astro.props;
       border: 1px solid #e5e3df !important;
       margin-bottom: 2rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+      transform: rotate(-1deg);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, border-color 0.5s ease;
+      &:hover {
+        transform: rotate(0deg) scale(1.02);
+        box-shadow: 0 8px 30px rgba(48, 99, 199, 0.12) !important;
+      }
+      &:nth-of-type(even) {
+        transform: rotate(1.5deg);
+        &:hover {
+          transform: rotate(0deg) scale(1.02);
+        }
+      }
       img {
         width: 100%;
         border-radius: 2px;
@@ -541,6 +556,15 @@ const { title, description = "Date Remoun" } = Astro.props;
         font-size: 0.9rem;
         margin-top: auto;
         padding-top: 0.5rem;
+      }
+    }
+
+    .hero-polaroid {
+      transform: rotate(3deg) !important;
+      max-width: 320px;
+      margin: 2rem auto;
+      &:hover {
+        transform: rotate(0deg) translateY(-10px) scale(1.05) !important;
       }
     }
 
