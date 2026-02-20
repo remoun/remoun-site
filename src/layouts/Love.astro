@@ -359,14 +359,13 @@ const { title, description = "Date Remoun" } = Astro.props;
 
     .greeting p {
       border: 1px solid var(--mood-border) !important;
-      padding: 0.6rem 1.25rem;
+      padding: 0.6rem 1.5rem;
       border-radius: 100px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
+      display: inline-block;
       font-weight: 500;
       font-size: 0.95rem;
+      line-height: 1.5;
+      max-width: fit-content;
     }
 
     .intro {
