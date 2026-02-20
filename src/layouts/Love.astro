@@ -116,7 +116,7 @@ const { title, description = "Date Remoun" } = Astro.props;
 
     /* Shared Card Styles */
     .content-block, .note-box, .read-me-item, .testimonial, 
-    .photo-placeholder, .photo-card, .hero-polaroid, .oscillation-centerpiece {
+    .photo-placeholder, .oscillation-centerpiece {
       background: var(--mood-card-bg) !important;
       color: var(--mood-text) !important;
       border: 1px solid var(--mood-border) !important;
@@ -124,6 +124,16 @@ const { title, description = "Date Remoun" } = Astro.props;
       box-shadow: var(--mood-shadow) !important;
       text-align: left;
       padding: 2rem;
+      margin-bottom: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, border-color 0.5s ease;
+    }
+
+    .photo-card, .hero-polaroid {
+      background: white !important;
+      padding: 1rem !important;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid #e5e3df !important;
       margin-bottom: 2rem;
       transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, border-color 0.5s ease;
     }
@@ -378,6 +388,8 @@ const { title, description = "Date Remoun" } = Astro.props;
     }
 
     li {
+      background: var(--mood-card-bg) !important;
+      border: 1px solid var(--mood-border) !important;
       padding: 0.75rem 1.25rem;
       border-radius: 12px;
       margin: 0.5rem 0;
@@ -504,9 +516,10 @@ const { title, description = "Date Remoun" } = Astro.props;
       flex-direction: column;
       border: 1px solid #e5e3df !important;
       margin-bottom: 2rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
       img {
         width: 100%;
-        border-radius: 4px;
+        border-radius: 2px;
         margin-bottom: 0.75rem;
         display: block;
         background: #f0f0f0;
