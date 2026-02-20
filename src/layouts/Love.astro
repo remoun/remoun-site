@@ -429,7 +429,7 @@ const { title, description = "Date Remoun" } = Astro.props;
       border: 1px solid var(--mood-border) !important;
       padding: 0.75rem 1.25rem;
       border-radius: 12px;
-      margin: 0.5rem 0;
+      margin: 0;
       display: block;
       list-style: none;
       width: 100%;
@@ -456,9 +456,16 @@ const { title, description = "Date Remoun" } = Astro.props;
       }
     }
 
-    .read-me-grid {
+    .read-me-grid, .enjoy-grid ul {
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .read-me-grid {
       gap: 1.5rem;
       margin: 2.5rem 0;
       .read-me-item strong {
@@ -726,7 +733,7 @@ const { title, description = "Date Remoun" } = Astro.props;
 
   @media (max-width: 600px) {
     html[data-mood] {
-      .read-me-grid { grid-template-columns: 1fr; }
+      .read-me-grid, .enjoy-grid ul { grid-template-columns: 1fr; }
       .love-header {
         flex-direction: column;
         gap: 1rem;
