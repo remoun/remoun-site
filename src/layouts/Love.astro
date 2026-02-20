@@ -150,9 +150,15 @@ const { title, description = "Date Remoun" } = Astro.props;
 
     .manifesto {
       border-left: 4px solid var(--mood-accent) !important;
-      padding: 2.5rem;
+      padding: 1.5rem 2rem;
       margin: 2rem 0;
-      border-radius: 0 var(--love-border-radius) var(--love-border-radius) 0;
+      border-radius: var(--love-border-radius) !important;
+      h3 {
+        margin-top: 0 !important;
+        margin-bottom: 0.75rem !important;
+        text-align: left;
+        &::after { display: none !important; }
+      }
     }
 
     .greeting {
