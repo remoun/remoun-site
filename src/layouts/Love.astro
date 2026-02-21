@@ -186,6 +186,12 @@ const { title, description = "Date Remoun" } = Astro.props;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
+      .centerpiece-info {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        z-index: 5;
+      }
     }
 
     .quote-line {
