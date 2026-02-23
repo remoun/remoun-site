@@ -180,12 +180,27 @@ const { title, description = "Date Remoun" } = Astro.props;
     /* Centerpiece Styles */
     .oscillation-centerpiece {
       margin: 4rem 0;
-      padding: 2rem;
+      padding: 2.5rem;
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 2rem;
+      
+      .vibe-note {
+        margin-bottom: 0;
+        line-height: 1.6;
+        opacity: 0.9;
+      }
+
+      .switcher-note {
+        border-top: 1px solid var(--mood-border);
+        padding-top: 1.5rem;
+        font-style: italic;
+        font-size: 0.95rem;
+        position: relative;
+      }
+
       .centerpiece-info {
         position: absolute;
         bottom: 1rem;
@@ -195,20 +210,20 @@ const { title, description = "Date Remoun" } = Astro.props;
     }
 
     .quote-line {
-      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
       line-height: 1.2;
       font-weight: 700;
+      margin-bottom: 0.75rem;
+      display: block;
       &.wednesday-text {
         font-family: 'Newsreader', serif;
         font-style: italic;
-        align-self: flex-start;
         text-align: left;
       }
       &.rainbow-text {
         font-family: 'Instrument Sans', sans-serif;
         color: #3063c7 !important;
-        align-self: flex-end;
-        text-align: right;
+        text-align: left;
       }
     }
 
@@ -619,22 +634,7 @@ const { title, description = "Date Remoun" } = Astro.props;
 
     /* Vibe Notes Section */
     .vibe-notes {
-      margin-top: 6rem;
-      padding: 3rem;
-      border-top: 1px solid var(--mood-border) !important;
-      font-size: 0.95rem;
-      color: var(--mood-text) !important;
-      opacity: 0.8;
-      h3 {
-        font-size: 1.2rem;
-        margin-bottom: 1.5rem;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-      }
-      .vibe-note {
-        margin-bottom: 1.5rem;
-        strong { color: var(--mood-accent) !important; }
-      }
+      display: none;
     }
   }
 
