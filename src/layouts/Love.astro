@@ -138,7 +138,7 @@ const { title, description = "Date Remoun" } = Astro.props;
       transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.5s ease, border-color 0.5s ease;
     }
 
-    .note-box.casual-note, .manifesto, .greeting p {
+    .note-box.casual-note, .greeting p {
       background: var(--mood-accent-soft) !important;
       color: var(--mood-text) !important;
     }
@@ -146,19 +146,6 @@ const { title, description = "Date Remoun" } = Astro.props;
     .note-box.casual-note { 
       border: 2px solid var(--mood-accent) !important;
       padding: 2rem;
-    }
-
-    .manifesto {
-      border-left: 4px solid var(--mood-accent) !important;
-      padding: 1.5rem 2rem;
-      margin: 2rem 0;
-      border-radius: var(--love-border-radius) !important;
-      h3 {
-        margin-top: 0 !important;
-        margin-bottom: 0.75rem !important;
-        text-align: left;
-        &::after { display: none !important; }
-      }
     }
 
     .greeting {
