@@ -60,8 +60,9 @@ export async function onRequest(context) {
     }
 
     // Known blog post → serve from /blog/ via internal rewrite
+    // Trailing slash ensures ASSETS serves the index.html directly instead of 308 redirecting
     if (await isBlogSlug(slug)) {
-      return context.env.ASSETS.fetch(new Request(new URL(`/blog/${slug}`, url), request));
+      return context.env.ASSETS.fetch(new Request(new URL(`/blog/${slug}/`, url), request));
     }
 
     // Everything else on remoun.blog → redirect to remoun.me
