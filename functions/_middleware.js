@@ -1,8 +1,14 @@
 async function getBlogSlugs(context, url) {
-  const response = await context.env.ASSETS.fetch(
-    new Request(new URL('/_blog-slugs.json', url))
-  );
-  return new Set(await response.json());
+  try {
+    const response = await context.env.ASSETS.fetch(
+      new Request(new URL('/_blog-slugs.json', url))
+    );
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('json')) return new Set();
+    return new Set(await response.json());
+  } catch {
+    return new Set();
+  }
 }
 
 export async function onRequest(context) {
@@ -22,11 +28,15 @@ export async function onRequest(context) {
   }
 
   // Load the build-time list of blog post slugs for routing decisions.
+  // Loaded lazily: only when the request is for a domain/path that needs it.
   // ASSETS.fetch() always returns 200 (falls back to nearest index.html),
   // so we can't use status codes to detect whether a page exists.
-  const blogSlugs = await getBlogSlugs(context, url);
+  let _blogSlugs;
+  async function isBlogSlug(s) {
+    if (!_blogSlugs) _blogSlugs = await getBlogSlugs(context, url);
+    return _blogSlugs.has(s);
+  }
   const slug = path.slice(1).replace(/\/$/, ''); // "/foo/" → "foo"
-  const isBlogSlug = blogSlugs.has(slug);
 
   // 1. Handle remoun.blog
   if (host === 'remoun.blog') {
@@ -50,7 +60,7 @@ export async function onRequest(context) {
     }
 
     // Known blog post → serve from /blog/ via internal rewrite
-    if (isBlogSlug) {
+    if (await isBlogSlug(slug)) {
       return context.env.ASSETS.fetch(new Request(new URL(`/blog/${slug}`, url), request));
     }
 
@@ -92,7 +102,7 @@ export async function onRequest(context) {
 
     // Blog slug at the root → redirect to remoun.blog
     // e.g. remoun.me/face-blur-tool → remoun.blog/face-blur-tool
-    if (isBlogSlug) {
+    if (!path.includes('.') && path !== '/' && await isBlogSlug(slug)) {
       return Response.redirect(`https://remoun.blog/${slug}`, 301);
     }
 
