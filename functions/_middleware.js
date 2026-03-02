@@ -5,21 +5,30 @@ export async function onRequest(context) {
 
   // 1. Handle remoun.blog
   if (host === 'remoun.blog') {
-    // If requesting root, serve /blog
+    // If requesting root, serve /blog index
     if (url.pathname === '/') {
-      return context.env.ASSETS.fetch(new Request(new URL('/blog', url), request));
+      return context.env.ASSETS.fetch(new Request(new URL('/blog/', url), request));
     }
     // If requesting /rss.xml, serve /blog/rss.xml
     if (url.pathname === '/rss.xml') {
       return context.env.ASSETS.fetch(new Request(new URL('/blog/rss.xml', url), request));
     }
-    // If requesting /blog/*, redirect to the root version for canonicality
+    
+    // REDIRECT FIX: Only redirect if the path starts with /blog/ AND it's not the root.
+    // If someone visits remoun.blog/blog/foo, they should go to remoun.blog/foo.
+    // If someone visits remoun.blog/blog/ (with trailing slash), they should go to remoun.blog/.
     if (url.pathname.startsWith('/blog/')) {
-      const slug = url.pathname.replace('/blog/', '');
+      const slug = url.pathname.slice(6); // remove "/blog/"
       return Response.redirect(`https://remoun.blog/${slug}`, 301);
     }
+    
+    // Also handle /blog without trailing slash
+    if (url.pathname === '/blog') {
+      return Response.redirect(`https://remoun.blog/`, 301);
+    }
+
     // If requesting a post without /blog/ prefix, rewrite to /blog/[slug]
-    // But don't rewrite if it's already /blog/... or a static asset (has extension)
+    // We exclude paths with dots (assets) and the /blog prefix itself.
     if (!url.pathname.startsWith('/blog') && !url.pathname.includes('.')) {
       return context.env.ASSETS.fetch(new Request(new URL(`/blog${url.pathname}`, url), request));
     }
@@ -27,27 +36,33 @@ export async function onRequest(context) {
 
   // 2. Handle remoun.love
   if (host === 'remoun.love') {
-    // If requesting root, serve /love
     if (url.pathname === '/') {
-      return context.env.ASSETS.fetch(new Request(new URL('/love', url), request));
+      return context.env.ASSETS.fetch(new Request(new URL('/love/', url), request));
+    }
+    // If someone goes to remoun.love/love/, redirect to root
+    if (url.pathname.startsWith('/love/')) {
+      const slug = url.pathname.slice(6); // remove "/love/"
+      return Response.redirect(`https://remoun.love/${slug}`, 301);
+    }
+    if (url.pathname === '/love') {
+      return Response.redirect(`https://remoun.love/`, 301);
     }
   }
 
   // 3. Handle canonical redirects for remoun.me
-  // If someone visits remoun.me/blog, redirect to remoun.blog
   if (host === 'remoun.me') {
     if (url.pathname === '/blog' || url.pathname === '/blog/') {
       return Response.redirect('https://remoun.blog/', 301);
     }
     if (url.pathname.startsWith('/blog/')) {
-      const slug = url.pathname.replace('/blog/', '');
+      const slug = url.pathname.slice(6);
       return Response.redirect(`https://remoun.blog/${slug}`, 301);
     }
     if (url.pathname === '/love' || url.pathname === '/love/') {
       return Response.redirect('https://remoun.love/', 301);
     }
     if (url.pathname.startsWith('/love/')) {
-      const slug = url.pathname.replace('/love/', '');
+      const slug = url.pathname.slice(6);
       return Response.redirect(`https://remoun.love/${slug}`, 301);
     }
   }
