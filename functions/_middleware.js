@@ -74,14 +74,11 @@ export async function onRequest(context) {
     // For unknown extensionless paths, check if they're blog posts
     // and redirect to remoun.blog if so (e.g. remoun.me/face-blur-tool → remoun.blog/face-blur-tool)
     if (!path.includes('.') && path !== '/') {
-      const rootResponse = await context.env.ASSETS.fetch(request);
-      if (rootResponse.status === 404) {
-        const blogResponse = await context.env.ASSETS.fetch(
-          new Request(new URL(`/blog${path}`, url), request)
-        );
-        if (blogResponse.status !== 404) {
-          return Response.redirect(`https://remoun.blog${path}`, 301);
-        }
+      const blogResponse = await context.env.ASSETS.fetch(
+        new Request(new URL(`/blog${path}`, url), request)
+      );
+      if (blogResponse.ok) {
+        return Response.redirect(`https://remoun.blog${path}`, 301);
       }
     }
   }
