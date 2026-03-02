@@ -1,26 +1,39 @@
+async function getBlogSlugs(context, url) {
+  const response = await context.env.ASSETS.fetch(
+    new Request(new URL('/_blog-slugs.json', url))
+  );
+  return new Set(await response.json());
+}
+
 export async function onRequest(context) {
   const { request, next } = context;
   const url = new URL(request.url);
   const host = url.hostname;
   const path = url.pathname;
 
-  // Universal redirects: /love → remoun.love, /blog → remoun.blog (from any domain)
-  if (path === '/love' || path === '/love/') {
-    if (host !== 'remoun.love') {
+  // Universal: /love → remoun.love (from any other domain)
+  if (host !== 'remoun.love') {
+    if (path === '/love' || path === '/love/') {
       return Response.redirect('https://remoun.love/', 301);
     }
+    if (path.startsWith('/love/')) {
+      return Response.redirect(`https://remoun.love/${path.slice(6)}`, 301);
+    }
   }
-  if (path.startsWith('/love/') && host !== 'remoun.love') {
-    const slug = path.slice(6);
-    return Response.redirect(`https://remoun.love/${slug}`, 301);
-  }
+
+  // Load the build-time list of blog post slugs for routing decisions.
+  // ASSETS.fetch() always returns 200 (falls back to nearest index.html),
+  // so we can't use status codes to detect whether a page exists.
+  const blogSlugs = await getBlogSlugs(context, url);
+  const slug = path.slice(1).replace(/\/$/, ''); // "/foo/" → "foo"
+  const isBlogSlug = blogSlugs.has(slug);
 
   // 1. Handle remoun.blog
   if (host === 'remoun.blog') {
     // Canonicalize /blog/* to the root version
+    // e.g. remoun.blog/blog/my-post → remoun.blog/my-post
     if (path.startsWith('/blog/')) {
-      const slug = path.slice(6);
-      return Response.redirect(`https://remoun.blog/${slug}`, 301);
+      return Response.redirect(`https://remoun.blog/${path.slice(6)}`, 301);
     }
     if (path === '/blog') {
       return Response.redirect('https://remoun.blog/', 301);
@@ -31,10 +44,20 @@ export async function onRequest(context) {
       return context.env.ASSETS.fetch(new Request(new URL('/blog/', url), request));
     }
 
-    // Rewrite clean paths to /blog/ prefix (posts and rss.xml)
-    if (!path.includes('.') || path === '/rss.xml') {
-      const blogPath = path === '/rss.xml' ? '/blog/rss.xml' : `/blog${path}`;
-      return context.env.ASSETS.fetch(new Request(new URL(blogPath, url), request));
+    // Serve RSS feed
+    if (path === '/rss.xml') {
+      return context.env.ASSETS.fetch(new Request(new URL('/blog/rss.xml', url), request));
+    }
+
+    // Known blog post → serve from /blog/ via internal rewrite
+    if (isBlogSlug) {
+      return context.env.ASSETS.fetch(new Request(new URL(`/blog/${slug}`, url), request));
+    }
+
+    // Everything else on remoun.blog → redirect to remoun.me
+    // e.g. remoun.blog/admin → remoun.me/admin
+    if (!path.includes('.')) {
+      return Response.redirect(`https://remoun.me${path}`, 301);
     }
   }
 
@@ -42,8 +65,7 @@ export async function onRequest(context) {
   if (host === 'remoun.love') {
     // Canonicalize /love/* to the root version
     if (path.startsWith('/love/')) {
-      const slug = path.slice(6);
-      return Response.redirect(`https://remoun.love/${slug}`, 301);
+      return Response.redirect(`https://remoun.love/${path.slice(6)}`, 301);
     }
     if (path === '/love') {
       return Response.redirect('https://remoun.love/', 301);
@@ -54,7 +76,7 @@ export async function onRequest(context) {
       return context.env.ASSETS.fetch(new Request(new URL('/love/', url), request));
     }
 
-    // Everything else on remoun.love redirects to remoun.me
+    // Everything else on remoun.love → redirect to remoun.me
     if (!path.includes('.')) {
       return Response.redirect(`https://remoun.me${path}`, 301);
     }
@@ -62,25 +84,19 @@ export async function onRequest(context) {
 
   // 3. Handle canonical redirects for remoun.me
   if (host === 'remoun.me') {
+    // /blog/* → remoun.blog
     if (path.startsWith('/blog')) {
       const slug = path.startsWith('/blog/') ? path.slice(6) : '';
       return Response.redirect(`https://remoun.blog/${slug}`, 301);
     }
-    if (path.startsWith('/love')) {
-      const slug = path.startsWith('/love/') ? path.slice(6) : '';
-      return Response.redirect(`https://remoun.love/${slug}`, 301);
+
+    // Blog slug at the root → redirect to remoun.blog
+    // e.g. remoun.me/face-blur-tool → remoun.blog/face-blur-tool
+    if (isBlogSlug) {
+      return Response.redirect(`https://remoun.blog/${slug}`, 301);
     }
 
-    // For unknown extensionless paths, check if they're blog posts
-    // and redirect to remoun.blog if so (e.g. remoun.me/face-blur-tool → remoun.blog/face-blur-tool)
-    if (!path.includes('.') && path !== '/') {
-      const blogResponse = await context.env.ASSETS.fetch(
-        new Request(new URL(`/blog${path}`, url), request)
-      );
-      if (blogResponse.ok) {
-        return Response.redirect(`https://remoun.blog${path}`, 301);
-      }
-    }
+    // Everything else (portfolio, resume, tools, etc.) served normally by next()
   }
 
   return next();
