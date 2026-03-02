@@ -1,7 +1,7 @@
 async function getBlogSlugs(context, url) {
   try {
     const response = await context.env.ASSETS.fetch(
-      new Request(new URL('/_blog-slugs.json', url))
+      new Request(new URL('/blog-slugs.json', url))
     );
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.includes('json')) return new Set();
