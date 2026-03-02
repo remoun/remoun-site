@@ -33,7 +33,7 @@ const { Content } = await post.render();
       {post.data.tags.length > 0 && (
         <div class="tags">
           {post.data.tags.map(tag => (
-            <span class="tag">{tag}</span>
+            <a class="tag" href={`/tag/${tag}`}>{tag}</a>
           ))}
         </div>
       )}

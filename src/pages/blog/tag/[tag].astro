@@ -1,0 +1,111 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const projects = await getCollection('projects');
+  const tagMap = new Map();
+
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      if (!tagMap.has(tag)) tagMap.set(tag, { posts: [], projects: [] });
+      tagMap.get(tag).posts.push(post);
+    }
+  }
+  for (const project of projects) {
+    for (const tag of project.data.tags) {
+      if (!tagMap.has(tag)) tagMap.set(tag, { posts: [], projects: [] });
+      tagMap.get(tag).projects.push(project);
+    }
+  }
+
+  return [...tagMap.entries()].map(([tag, { posts, projects }]) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+      projects: projects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { tag, posts, projects } = Astro.props;
+---
+
+<Base title={`Tagged: ${tag} | Remoun`} description={`Posts and projects tagged "${tag}".`}>
+  <h1>Tagged: {tag}</h1>
+
+  {posts.length > 0 && (
+    <section class="tag-section">
+      <h2>Posts</h2>
+      <ul class="post-list">
+        {posts.map(post => (
+          <li class="post">
+            <h3 class="title">
+              <a href={`/${post.slug}`}>{post.data.title}</a>
+            </h3>
+            <p class="meta">
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </p>
+            <p class="description">{post.data.description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  {projects.length > 0 && (
+    <section class="tag-section">
+      <h2>Projects</h2>
+      <div class="portfolio-grid">
+        {projects.map(project => (
+          <a
+            href={project.data.link || `https://remoun.me/portfolio/${project.slug}`}
+            class="portfolio-card"
+            target={project.data.link ? '_blank' : undefined}
+            rel={project.data.link ? 'noopener' : undefined}
+          >
+            {project.data.image && <img src={project.data.image} alt={project.data.title} />}
+            <div class="content">
+              <h3 class="title">{project.data.title}</h3>
+              <p class="description">{project.data.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <nav class="tag-nav">
+    <a href="/">← All posts</a>
+  </nav>
+</Base>
+
+<style>
+  .tag-section {
+    margin-bottom: 3rem;
+  }
+
+  .tag-section h2 {
+    font-size: var(--size-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tag-nav {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .portfolio-card {
+    text-decoration: none;
+    color: inherit;
+  }
+</style>
