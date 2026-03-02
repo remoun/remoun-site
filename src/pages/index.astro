@@ -18,7 +18,7 @@ const featuredProjects = (await getCollection('projects'))
       Senior software engineer. I build things, break things, and occasionally write about it.
     </p>
     <div class="links">
-      <a href="/blog">Read the blog</a>
+      <a href="https://remoun.blog">Read the blog</a>
       <a href="/resume">See my work</a>
     </div>
   </section>
@@ -30,7 +30,7 @@ const featuredProjects = (await getCollection('projects'))
         {recentPosts.map(post => (
           <li class="post">
             <h3 class="title">
-              <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+              <a href={`https://remoun.blog/${post.slug}`}>{post.data.title}</a>
             </h3>
             <p class="meta">
               <time datetime={post.data.date.toISOString()}>
@@ -40,7 +40,7 @@ const featuredProjects = (await getCollection('projects'))
           </li>
         ))}
       </ul>
-      <p><a href="/blog">All posts →</a></p>
+      <p><a href="https://remoun.blog">All posts →</a></p>
     </section>
   )}
 
