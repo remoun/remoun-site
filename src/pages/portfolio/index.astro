@@ -12,25 +12,26 @@ const projects = (await getCollection('projects'))
 
   <div class="portfolio-grid">
     {projects.map(project => (
-      <a
-        href={project.data.link || `/portfolio/${project.slug}`}
-        class="portfolio-card"
-        target={project.data.link ? '_blank' : undefined}
-        rel={project.data.link ? 'noopener' : undefined}
-      >
+      <div class="portfolio-card">
         {project.data.image && <img src={project.data.image} alt={project.data.title} />}
         <div class="content">
-          <h2 class="title">{project.data.title}</h2>
+          <h2 class="title">
+            <a
+              href={project.data.link || `/portfolio/${project.slug}`}
+              target={project.data.link ? '_blank' : undefined}
+              rel={project.data.link ? 'noopener' : undefined}
+            >{project.data.title}</a>
+          </h2>
           <p class="description">{project.data.description}</p>
           {project.data.tags.length > 0 && (
-            <div class="tags" style="margin-top: 0.75rem;">
+            <div class="tags">
               {project.data.tags.map(tag => (
                 <a class="tag" href={`https://remoun.blog/tag/${tag}`}>{tag}</a>
               ))}
             </div>
           )}
         </div>
-      </a>
+      </div>
     ))}
   </div>
 
@@ -41,7 +42,23 @@ const projects = (await getCollection('projects'))
 
 <style>
   .portfolio-card {
+    position: relative;
+  }
+
+  .portfolio-card .title a {
     text-decoration: none;
     color: inherit;
+  }
+
+  .portfolio-card .title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .portfolio-card .tags {
+    position: relative;
+    z-index: 1;
+    margin-top: 0.75rem;
   }
 </style>
