@@ -8,7 +8,8 @@ const recentPosts = (await getCollection('posts', ({ data }) => !data.draft))
 
 const featuredProjects = (await getCollection('projects'))
   .filter(p => p.data.featured)
-  .slice(0, 2);
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
 ---
 
 <Base title="Remoun">
