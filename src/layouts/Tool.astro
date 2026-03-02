@@ -15,16 +15,16 @@ const currentPath = Astro.url.pathname;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <title>{title}</title>
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/blog/rss.xml" />
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="https://remoun.blog/rss.xml" />
 </head>
 <body>
   <header class="site-header">
-    <div class="site-header__inner site-header__inner--wide">
-      <a href="/" class="site-title">Remoun</a>
-      <nav class="site-nav">
-        <a href="/blog" class:list={[{ active: currentPath.startsWith('/blog') }]}>Blog</a>
-        <a href="/portfolio" class:list={[{ active: currentPath.startsWith('/portfolio') }]}>Portfolio</a>
-        <a href="/resume" class:list={[{ active: currentPath === '/resume' }]}>Resume</a>
+    <div class="inner inner--wide">
+      <a href="/" class="title">Remoun</a>
+      <nav>
+        <a href="https://remoun.blog" class:list={[{ active: currentPath.startsWith('/blog') }]}>Blog</a>
+        <a href="https://remoun.me/portfolio" class:list={[{ active: currentPath.startsWith('/portfolio') }]}>Portfolio</a>
+        <a href="https://remoun.me/resume" class:list={[{ active: currentPath === '/resume' }]}>Resume</a>
       </nav>
     </div>
   </header>
@@ -44,7 +44,7 @@ const currentPath = Astro.url.pathname;
 <style is:global>
   @import '../styles/global.css';
 
-  .site-header__inner--wide {
+  .site-header .inner--wide {
     max-width: 72rem;
   }
 
