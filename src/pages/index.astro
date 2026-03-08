@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { blogUrl, siteUrl } from '../lib/urls';
 import { getCollection } from 'astro:content';
 
 const recentPosts = (await getCollection('posts', ({ data }) => !data.draft))
@@ -19,8 +20,8 @@ const featuredProjects = (await getCollection('projects'))
       Senior software engineer. I build things, break things, and occasionally write about it.
     </p>
     <div class="links">
-      <a href="https://remoun.blog">Read the blog</a>
-      <a href="https://remoun.me/resume">See my work</a>
+      <a href={blogUrl()}>Read the blog</a>
+      <a href={siteUrl('/resume')}>See my work</a>
     </div>
   </section>
 
@@ -31,7 +32,7 @@ const featuredProjects = (await getCollection('projects'))
         {recentPosts.map(post => (
           <li class="post">
             <h3 class="title">
-              <a href={`https://remoun.blog/${post.slug}`}>{post.data.title}</a>
+              <a href={blogUrl(post.slug)}>{post.data.title}</a>
             </h3>
             <p class="meta">
               <time datetime={post.data.date.toISOString()}>
@@ -41,7 +42,7 @@ const featuredProjects = (await getCollection('projects'))
           </li>
         ))}
       </ul>
-      <p><a href="https://remoun.blog">All posts →</a></p>
+      <p><a href={blogUrl()}>All posts →</a></p>
     </section>
   )}
 
@@ -59,7 +60,7 @@ const featuredProjects = (await getCollection('projects'))
           </a>
         ))}
       </div>
-      <p style="margin-top: 1.5rem;"><a href="https://remoun.me/portfolio">All projects →</a></p>
+      <p style="margin-top: 1.5rem;"><a href={siteUrl('/portfolio')}>All projects →</a></p>
     </section>
   )}
 </Base>

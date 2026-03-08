@@ -1,5 +1,6 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Base from '../layouts/Base.astro';
+import { blogUrl } from '../lib/urls';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -44,7 +45,7 @@ const { Content } = await post.render();
     </div>
 
     <nav class="nav">
-      <a href="/">← Back to all posts</a>
+      <a href={blogUrl()}>← Back to all posts</a>
     </nav>
   </article>
 </Base>

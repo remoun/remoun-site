@@ -54,15 +54,15 @@ export async function onRequest(context) {
       return context.env.ASSETS.fetch(new Request(new URL('/blog/', url), request));
     }
 
-    // Serve RSS feed
+    // Serve RSS feed (now at top-level /rss.xml)
     if (path === '/rss.xml') {
-      return context.env.ASSETS.fetch(new Request(new URL('/blog/rss.xml', url), request));
+      return next();
     }
 
-    // Known blog post → serve from /blog/ via internal rewrite
-    // Trailing slash ensures ASSETS serves the index.html directly instead of 308 redirecting
+    // Known blog post or tag → serve the top-level page directly
+    // Pages now live at /{slug}/ and /tag/{tag}/ instead of /blog/{slug}/
     if (await isBlogSlug(slug)) {
-      return context.env.ASSETS.fetch(new Request(new URL(`/blog/${slug}/`, url), request));
+      return next();
     }
 
     // Everything else on remoun.blog → redirect to remoun.me

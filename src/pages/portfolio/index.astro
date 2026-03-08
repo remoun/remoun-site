@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { blogUrl } from '../../lib/urls';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects'))
@@ -26,7 +27,7 @@ const projects = (await getCollection('projects'))
           {project.data.tags.length > 0 && (
             <div class="tags">
               {project.data.tags.map(tag => (
-                <a class="tag" href={`https://remoun.blog/tag/${tag}`}>{tag}</a>
+                <a class="tag" href={blogUrl(`tag/${tag}`)}>{tag}</a>
               ))}
             </div>
           )}

@@ -1,5 +1,6 @@
 ---
-import Base from '../../../layouts/Base.astro';
+import Base from '../../layouts/Base.astro';
+import { blogUrl, siteUrl } from '../../lib/urls';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -63,7 +64,7 @@ const { tag, posts, projects } = Astro.props;
       <div class="portfolio-grid">
         {projects.map(project => (
           <a
-            href={project.data.link || `https://remoun.me/portfolio/${project.slug}`}
+            href={project.data.link || siteUrl(`/portfolio/${project.slug}`)}
             class="portfolio-card"
             target={project.data.link ? '_blank' : undefined}
             rel={project.data.link ? 'noopener' : undefined}
@@ -80,7 +81,7 @@ const { tag, posts, projects } = Astro.props;
   )}
 
   <nav class="tag-nav">
-    <a href="/">← All posts</a>
+    <a href={blogUrl()}>← All posts</a>
   </nav>
 </Base>
 
