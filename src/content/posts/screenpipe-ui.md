@@ -6,8 +6,6 @@ tags: ["tools", "typescript", "react", "cli"]
 draft: false
 ---
 
-# Building screenpipe-ui: A Community UI for Your AI Screen Memory
-
 [screenpipe](https://github.com/screenpipe/screenpipe) turns your computer into a personal AI that knows everything you've done—screen captures, audio transcriptions, UI state—all local, all private. It's a powerful backend with 17k+ GitHub stars. What it didn't have, until recently, was a polished way to search and browse that memory from the terminal or the browser.
 
 That's what [screenpipe-ui](https://github.com/remoun/screenpipe-ui) is: a community-built, open-source interface to screenpipe. Three interfaces, one codebase.
