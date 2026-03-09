@@ -17,8 +17,6 @@ remoun-site/
 │   │   ├── index.astro   # Landing page
 │   │   └── resume.astro  # Resume page
 │   └── styles/
-├── workers/
-│   └── shortener/        # remoun.to URL shortener
 └── public/               # Static assets
 ```
 
@@ -47,25 +45,6 @@ npm run build
 4. Add custom domains in Cloudflare Pages settings:
    - `remoun.dev` (primary)
    - `remoun.blog`
-
-### URL Shortener (Cloudflare Worker)
-
-```bash
-cd workers/shortener
-
-# Install wrangler if needed
-npm install -g wrangler
-
-# Login to Cloudflare
-wrangler login
-
-# Deploy
-wrangler deploy
-
-# After deploy, configure custom domain in Cloudflare dashboard:
-# Workers & Pages → remoun-shortener → Settings → Triggers → Custom Domains
-# Add: remoun.to
-```
 
 ### Domain Aliases
 
@@ -124,23 +103,9 @@ featured: true # Shows on homepage
 Longer description...
 ```
 
-### Short URLs
-
-Edit `workers/shortener/redirects.json`:
-
-```json
-{
-  "gh": "https://github.com/remoun",
-  "newlink": "https://example.com/whatever"
-}
-```
-
-Then redeploy: `cd workers/shortener && wrangler deploy`
-
 ## Future Enhancements
 
 - [ ] Newsletter signup (Buttondown/ConvertKit)
-- [ ] KV-backed shortener with web UI
 - [ ] PDF resume generation from Astro page
 
 ## Web Editing with Decap CMS

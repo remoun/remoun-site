@@ -11,6 +11,5 @@ The site you're looking at. A single Astro app serving:
 
 - **remoun.dev** — Landing page and hub
 - **remoun.blog** — Technical blog
-- **remoun.to** — URL shortener (Cloudflare Worker)
 
 Built to be low-maintenance and easy to extend.
