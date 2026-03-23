@@ -65,11 +65,19 @@ wait_for_port() {
 
 Open WebUI ships with local RAG support using sentence-transformers. On first start, it downloads a ~90MB model. That's fine in a Docker container where you control the build. In a YunoHost install script with a timeout, it's a problem.
 
-The solution: derive the embedding engine from the user's LLM backend choice. If you picked OpenAI or Ollama, use that for embeddings too. No local model download, fast startup.
+The fix: default the embedding engine to `openai` so the app starts instantly without downloading anything. Users can always switch to local embeddings later through the admin panel.
 
-### LDAP and SSO
+### Authentication: SSO or open registration
 
-YunoHost manages users via LDAP and provides SSO through HTTP headers. Open WebUI supports both — it took some `.env` configuration, but users can now log in with their YunoHost credentials and the SSO portal works seamlessly.
+YunoHost manages users via LDAP and provides SSO through HTTP headers. Open WebUI supports both. But I realized not every install needs the same auth model — sometimes you want to lock it down to YunoHost users, sometimes you want to let anyone create an account.
+
+So the installer asks: **SSO mode** (LDAP + trusted headers, only YunoHost users can log in) or **open registration** (Open WebUI manages its own accounts, anyone can sign up). One question at install time, and the right `.env` values get wired up.
+
+### Yanked dependencies and masked errors
+
+The most educational failure came after everything was "working." I bumped Open WebUI to 0.8.10 and the install broke: `ddgs==9.11.2` had been yanked from PyPI. OK, pin to 0.8.8 instead. But 0.8.8 crash-looped on startup — a bug in its database migration code where a `finally` block referenced a variable that was never assigned if the connection failed, masking the real error with an `UnboundLocalError`.
+
+The fix was to go back to 0.8.10, install it with `--no-deps`, patch the package metadata to accept a newer ddgs, then let pip resolve everything else normally. It's the kind of thing that only surfaces when you're installing from PyPI on a real server instead of pulling a pre-built Docker image.
 
 ---
 
