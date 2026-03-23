@@ -18,7 +18,7 @@ const projects = (await getCollection('projects'))
         <div class="content">
           <h2 class="title">
             <a
-              href={project.data.link || `/portfolio/${project.slug}`}
+              href={project.data.link || `/portfolio/${project.id}`}
               target={project.data.link ? '_blank' : undefined}
               rel={project.data.link ? 'noopener' : undefined}
             >{project.data.title}</a>

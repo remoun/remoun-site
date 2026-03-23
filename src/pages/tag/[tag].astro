@@ -44,7 +44,7 @@ const { tag, posts, projects } = Astro.props;
         {posts.map(post => (
           <li class="post">
             <h3 class="title">
-              <a href={`/${post.slug}`}>{post.data.title}</a>
+              <a href={`/${post.id}`}>{post.data.title}</a>
             </h3>
             <p class="meta">
               <time datetime={post.data.date.toISOString()}>
@@ -64,7 +64,7 @@ const { tag, posts, projects } = Astro.props;
       <div class="portfolio-grid">
         {projects.map(project => (
           <a
-            href={project.data.link || siteUrl(`/portfolio/${project.slug}`)}
+            href={project.data.link || siteUrl(`/portfolio/${project.id}`)}
             class="portfolio-card"
             target={project.data.link ? '_blank' : undefined}
             rel={project.data.link ? 'noopener' : undefined}

@@ -4,7 +4,7 @@ export async function GET() {
   const posts = await getCollection('posts', ({ data }) => !data.draft);
   const projects = await getCollection('projects');
 
-  const postSlugs = posts.map(post => post.slug);
+  const postSlugs = posts.map(post => post.id);
   const tags = new Set([
     ...posts.flatMap(p => p.data.tags),
     ...projects.flatMap(p => p.data.tags),
