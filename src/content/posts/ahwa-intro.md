@@ -5,7 +5,7 @@ date: 2026-04-16
 tags: [ai, self-hosting, yunohost, docker, sveltekit, typescript, open-source]
 ---
 
-I wrote last month about [packaging Open WebUI for YunoHost](/posts/self-hosting-ai-chat). That gave me the playground I wanted: a single surface where I could wire up different providers, save personas, and experiment freely. Good for drafting, good for rubber-ducking, good for building a writing coach who actually pushes back.
+I wrote last month about [packaging Open WebUI for YunoHost](/self-hosting-ai-chat). That gave me the playground I wanted: a single surface where I could wire up different providers, save personas, and experiment freely. Good for drafting, good for rubber-ducking, good for building a writing coach who actually pushes back.
 
 But the decisions that actually matter aren't drafting problems. They're the ones where a part of me says yes and another part says no, and I don't know which part to trust. Should I take the job. Should I say the hard thing to the friend. Should I keep going on this project, or put it down.
 
