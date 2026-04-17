@@ -110,6 +110,4 @@ No bytes on the wire, no font-loading flash, no third-party request. Charter on 
 
 M2 adds a public demo at `ahwa.app` for people who want to try before they install — rate-limited, ephemeral, walled off from any memory feature — and a proper YunoHost package so the install path mirrors the Open WebUI one. M3 is the milestone I most want to write and most fear committing to: per-party **memory** (a markdown file per party, passed to every persona as context, editable by you), **two-party mediation** (one link per participant, each talks to the council privately, the synthesizer sees both sides), and a persona called **The Historian** who only becomes available once memory exists and whose job is to notice patterns across time.
 
-For now, M1 is live on a small private instance behind Caddy basic-auth, and I've used it for actual decisions in the last few weeks — including one that I'd been circling for six months. The council disagreed usefully. The synthesizer told me which disagreement actually mattered. I did the thing.
-
-The code is [on GitHub](https://github.com/remoun/ahwa). Try it if you want a council around your own table.
+For now, M1 has shipped and is running at https://ahwa.app. The code is [on GitHub](https://github.com/remoun/ahwa). Try it if you want a council around your own table.
