@@ -2,7 +2,7 @@
 title: 'Ahwa: A table for the hard decisions'
 description: 'Open WebUI gave me a playground for personas one at a time. Ahwa lets them argue together — a self-hosted council of personas that deliberates on one dilemma, synthesizes, and gets out of the way.'
 date: 2026-04-16
-tags: [ai, self-hosting, yunohost, docker, sveltekit, typescript, open-source]
+tags: [ahwa, ai, self-hosting, yunohost, docker, sveltekit, typescript, open-source]
 ---
 
 I wrote last month about [packaging Open WebUI for YunoHost](/self-hosting-ai-chat). That gave me the playground I wanted: a single surface where I could wire up different providers, save personas, and experiment freely. Good for drafting, good for rubber-ducking, good for building a writing coach who actually pushes back.
@@ -116,3 +116,5 @@ No bytes on the wire, no font-loading flash, no third-party request. Charter on 
 M2 is shipping in pieces. The first piece is up: a public demo at [ahwa.app](https://ahwa.app) — rate-limited, ephemeral, walled off from any memory feature — so you can play with it, and self-host for memory functionality, privacy, and reliability. Still on the M2 list is a proper YunoHost package so the install path mirrors the Open WebUI one. M3 is the milestone I most want to write and most fear committing to: per-party **memory** (a markdown file per party, passed to every persona as context, editable by you), **two-party mediation** (one link per participant, each talks to the council privately, the synthesizer sees both sides), and a persona called **The Historian** who only becomes available once memory exists and whose job is to notice patterns across time.
 
 For now, M1 has shipped, the demo is live at https://ahwa.app, and the code is [on GitHub](https://github.com/remoun/ahwa). Try it if you want a council around your own table.
+
+[All Ahwa posts →](/tag/ahwa)
