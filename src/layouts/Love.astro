@@ -536,6 +536,25 @@ const { title, description = "Date Remoun" } = Astro.props;
       align-items: stretch;
     }
 
+    .photo-grid.photo-grid-inline {
+      grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+      gap: 1.25rem;
+      margin: 2rem 0;
+    }
+
+    .photo-inline {
+      max-width: 320px;
+      margin: 2rem auto;
+    }
+
+    .toc-nav {
+      padding: 1.25rem 1.75rem !important;
+      margin: 1.5rem 0 2.5rem !important;
+      font-size: 0.95rem;
+      p { line-height: 2; }
+      a { white-space: nowrap; }
+    }
+
     .photo-card, .hero-polaroid {
       background: white !important;
       padding: 1rem !important;
