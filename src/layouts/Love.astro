@@ -2,11 +2,16 @@
 import '../styles/global.css';
 
 interface Props {
-  title: string;
+  frontmatter?: { title?: string; description?: string };
+  title?: string;
   description?: string;
 }
 
-const { title, description = "Date Remoun" } = Astro.props;
+const fm = Astro.props.frontmatter ?? {};
+const title = fm.title ?? Astro.props.title ?? 'Date Remoun';
+const description = fm.description ?? Astro.props.description ?? 'Date Remoun';
+const pageUrl = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
 ---
 
 <!DOCTYPE html>
@@ -16,6 +21,14 @@ const { title, description = "Date Remoun" } = Astro.props;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
   <meta name="robots" content="noindex" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1437" />
+  <meta property="og:image:height" content="1440" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap" rel="stylesheet">
@@ -575,13 +588,16 @@ const { title, description = "Date Remoun" } = Astro.props;
           transform: rotate(0deg) scale(1.02);
         }
       }
-      img {
+      img, video {
         width: 100%;
+        height: auto;
         border-radius: 2px;
         margin-bottom: 0.75rem;
         display: block;
         background: #f0f0f0;
         flex-shrink: 0;
+      }
+      img {
         cursor: zoom-in;
       }
       &[data-caption]::after {
@@ -724,7 +740,7 @@ const { title, description = "Date Remoun" } = Astro.props;
       <a href="https://remoun.me" class="logo">Remoun</a>
       <nav>
         <a href="#who-i-am">Who</a>
-        <a href="#life-design">Looking</a>
+        <a href="#what-im-looking-for">Looking</a>
         <a href="#reach-out">Reach Out</a>
       </nav>
     </header>
@@ -734,7 +750,7 @@ const { title, description = "Date Remoun" } = Astro.props;
 
     <div class="mood-toggle-container">
       <div class="mood-info-panel" id="mood-info-panel">
-        <p><strong>🖤 Wednesday</strong> — serious mode. Principled, analytical, intense about justice and building a better world.</p>
+        <p><strong>🖤 Wednesday</strong> — serious mode. Wednesday as in Addams, not as in hump day. Principled, analytical, intense about justice and building a better world.</p>
         <p><strong>🌈 Rainbow</strong> — play mode. Puns, clown noses, joy in the absurd and the dance floor.</p>
         <p>I oscillate between these. Both are real.</p>
       </div>
@@ -816,6 +832,7 @@ const { title, description = "Date Remoun" } = Astro.props;
     function closeLightbox() {
       lightbox.classList.remove('active');
       document.body.style.overflow = '';
+      photos[currentIndex]?.focus();
     }
 
     function showNext() {
@@ -829,9 +846,17 @@ const { title, description = "Date Remoun" } = Astro.props;
     }
 
     photos.forEach((img, index) => {
+      img.setAttribute('tabindex', '0');
+      img.setAttribute('role', 'button');
       img.addEventListener('click', (e) => {
         e.stopPropagation();
         openLightbox(index);
+      });
+      img.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openLightbox(index);
+        }
       });
     });
 
