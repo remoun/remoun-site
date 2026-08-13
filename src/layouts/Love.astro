@@ -194,19 +194,20 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
     }
 
     .mood-info-link {
-      width: 24px;
-      height: 24px;
+      /* 32px clears the WCAG 2.2 target-size minimum (SC 2.5.8). */
+      width: 32px;
+      height: 32px;
       background: var(--mood-card-bg);
       border: 1px solid var(--mood-border);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.75rem;
+      font-size: 0.85rem;
       font-weight: 700;
       text-decoration: none;
       color: var(--mood-text) !important;
-      opacity: 0.6;
+      opacity: 0.75;
       transition: all 0.2s ease;
       cursor: pointer;
       &:hover {
@@ -426,6 +427,11 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
       text-align: left;
       &::before {
         content: '→' !important;
+        /* Same glyph, but with empty alt text so screen readers don't
+           announce an arrow before all ~40 list items. The plain
+           declaration above is the fallback for engines without the
+           `content: value / alt` syntax. */
+        content: '→' / '' !important;
         display: inline-block !important;
         position: relative !important;
         top: 0 !important;
@@ -472,6 +478,7 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
       padding: 2rem;
       &::before {
         content: '✨' !important;
+        content: '✨' / '' !important;
         position: absolute !important;
         top: 1rem !important;
         left: 1rem !important;
@@ -622,6 +629,56 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
       }
     }
 
+    /* Jargon terms: a real <button> so keyboard and screen reader support
+       come for free, styled to read as an underlined term rather than a
+       control. The popover itself renders in the top layer, so it can't be
+       clipped by photo cards or the lightbox stacking context. */
+    .term {
+      background: none !important;
+      border: none;
+      padding: 0;
+      font: inherit;
+      color: var(--mood-accent) !important;
+      cursor: help;
+      text-decoration: underline dotted;
+      text-underline-offset: 0.2em;
+      text-decoration-thickness: 1px;
+      &:hover {
+        text-decoration-style: solid;
+      }
+    }
+
+    .term-def {
+      background: var(--mood-card-bg) !important;
+      color: var(--mood-text) !important;
+      border: 1px solid var(--mood-accent) !important;
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      max-width: min(32ch, calc(100vw - 3rem));
+      font-size: 0.9rem;
+      line-height: 1.5;
+      text-align: left;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      /* Default top-layer placement centers the bubble, which is a fine
+         fallback. Where anchor positioning is supported it tucks in
+         beside the term instead. */
+      &::backdrop {
+        background: rgba(0, 0, 0, 0.2);
+      }
+    }
+
+    /* A popover invoked via `popovertarget` gets its invoker as an
+       *implicit* anchor, so each bubble resolves against its own term
+       with no per-term anchor-name needed. */
+    @supports (position-area: block-end) {
+      .term-def {
+        position-area: block-end span-inline-end;
+        position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+        margin: 0.4rem 0 0 0;
+        &::backdrop { background: transparent; }
+      }
+    }
+
   }
 
   /* Lightbox Styles */
@@ -722,6 +779,40 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
     }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html[data-mood] {
+      /* The polaroid tilt is decorative; flatten it rather than animate it. */
+      .photo-card, .hero-polaroid,
+      .photo-card:nth-of-type(even) {
+        transform: none !important;
+        &:hover { transform: none !important; }
+      }
+
+      .cta-button:hover {
+        transform: none !important;
+      }
+
+      .mood-info-link:hover {
+        transform: none !important;
+      }
+
+      .testimonial::before {
+        transition: none !important;
+      }
+
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    #lightbox img {
+      transform: none !important;
+    }
+  }
+
   @media (max-width: 600px) {
     html[data-mood] {
       .read-me-grid, .enjoy-grid ul { grid-template-columns: 1fr; }
@@ -766,7 +857,7 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
 
   </div>
 
-  <div id="lightbox">
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
     <button class="lightbox-close" aria-label="Close">&times;</button>
     <button class="lightbox-nav lightbox-prev" aria-label="Previous">&lsaquo;</button>
     <div class="lightbox-content">
@@ -785,6 +876,9 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
       document.documentElement.setAttribute('data-mood', mood);
       document.documentElement.setAttribute('data-theme', mood === 'rainbow' ? 'light' : 'dark');
       localStorage.setItem('remoun-mood', mood);
+      moodBtns.forEach(b => {
+        b.setAttribute('aria-pressed', String(b.getAttribute('data-set-mood') === mood));
+      });
     }
 
     moodBtns.forEach(btn => {
@@ -822,17 +916,36 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
       }
     }
 
+    const lightboxClose = lightbox.querySelector('.lightbox-close');
+
     function openLightbox(index) {
       currentIndex = index;
       updateLightbox();
       lightbox.classList.add('active');
       document.body.style.overflow = 'hidden';
+      lightboxClose.focus();
     }
 
     function closeLightbox() {
       lightbox.classList.remove('active');
       document.body.style.overflow = '';
       photos[currentIndex]?.focus();
+    }
+
+    // Keep Tab inside the dialog while it's open, so keyboard users don't
+    // walk out into the page behind the overlay.
+    function trapFocus(e) {
+      const focusables = Array.from(lightbox.querySelectorAll('button'));
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
 
     function showNext() {
@@ -875,6 +988,7 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
       if (e.key === 'Escape') closeLightbox();
       if (e.key === 'ArrowRight') showNext();
       if (e.key === 'ArrowLeft') showPrev();
+      if (e.key === 'Tab') trapFocus(e);
     });
 
 
@@ -882,12 +996,51 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
     const infoBtn = document.getElementById('mood-info-btn');
     const infoPanel = document.getElementById('mood-info-panel');
     if (infoBtn && infoPanel) {
+      const syncInfoState = () => {
+        infoBtn.setAttribute('aria-expanded', String(infoPanel.classList.contains('open')));
+      };
+      infoBtn.setAttribute('aria-controls', 'mood-info-panel');
+      syncInfoState();
       infoBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         infoPanel.classList.toggle('open');
+        syncInfoState();
       });
-      document.addEventListener('click', () => infoPanel.classList.remove('open'));
+      document.addEventListener('click', () => {
+        infoPanel.classList.remove('open');
+        syncInfoState();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && infoPanel.classList.contains('open')) {
+          infoPanel.classList.remove('open');
+          syncInfoState();
+          infoBtn.focus();
+        }
+      });
     }
+
+    // CSS can flatten transforms, but autoplay/loop are attributes — a
+    // 1.25s clip looping forever is motion that can't be paused, so hand
+    // control back to anyone who's asked for reduced motion.
+    (function() {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+      function applyMotionPref() {
+        document.querySelectorAll('video[autoplay]').forEach(video => {
+          if (reduceMotion.matches) {
+            video.loop = false;
+            video.controls = true;
+            video.pause();
+            video.currentTime = 0;
+          } else {
+            video.loop = true;
+            video.controls = false;
+            video.play().catch(() => {});
+          }
+        });
+      }
+      applyMotionPref();
+      reduceMotion.addEventListener('change', applyMotionPref);
+    })();
   </script>
 </body>
 </html>
