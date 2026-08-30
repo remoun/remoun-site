@@ -1,6 +1,6 @@
 ---
 title: "Hello World"
-description: "First post — setting up this blog and what I plan to write about."
+description: "First post: setting up this blog and what I plan to write about."
 date: 2025-12-23
 tags: [meta]
 ---

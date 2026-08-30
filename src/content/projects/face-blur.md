@@ -9,8 +9,8 @@ link: "/face-blur"
 
 A browser-based tool for anonymizing faces in photos. AI-powered detection with manual override controls for precision.
 
-- **Fully client-side** — photos never leave your browser
-- **Batch processing** — handle multiple photos at once
-- **Smart clustering** — groups the same person across photos
-- **Manual controls** — draw, move, and resize blur regions
-- **Two blur styles** — Gaussian blur or pixelation
+- **Fully client-side**: photos never leave your browser
+- **Batch processing**: handle multiple photos at once
+- **Smart clustering**: groups the same person across photos
+- **Manual controls**: draw, move, and resize blur regions
+- **Two blur styles**: Gaussian blur or pixelation

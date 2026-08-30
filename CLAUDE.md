@@ -21,7 +21,7 @@ Deployed to Cloudflare Pages at remoun.me (with remoun.blog, remoun.dev, etc. as
 
 ### Structure
 - Start with a hook grounding readers in the problem
-- Use headers sparingly—only for real section breaks
+- Use headers sparingly: only for real section breaks
 - End with something actionable or a question
 - Keep paragraphs short (2-4 sentences)
 - Target 800-1200 words for most posts
@@ -31,10 +31,10 @@ Deployed to Cloudflare Pages at remoun.me (with remoun.blog, remoun.dev, etc. as
 - Lecturing readers about what they should do
 - Excessive hedging/qualifiers
 - Starting paragraphs with "So," or "Now,"
-- Neat bows at the end—leave some threads open
+- Neat bows at the end. Leave some threads open
 
 ### When writing about money/privilege
-- Acknowledge it directly, briefly, once—then move on
+- Acknowledge it directly, briefly, once. Then move on
 - Focus on the intellectual/philosophical content
 - Make it useful regardless of reader's situation
 - Don't apologize repeatedly; reads as insincere

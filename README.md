@@ -65,7 +65,7 @@ The `/love` page has its own layout and styling. To serve it at `remoun.love`:
    - Requests to `remoun.love/` serve the `/love` page
    - Other domains serve content normally
 
-The middleware runs at the edge, so there's no redirect — visitors see `remoun.love` in their browser.
+The middleware runs at the edge, so there's no redirect: visitors see `remoun.love` in their browser.
 
 ## Adding Content
 

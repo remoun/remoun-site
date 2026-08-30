@@ -17,7 +17,7 @@ What was missing: a tool that could detect faces automatically, let you select w
 
 ## What I Built
 
-The [Face Blur Tool](/face-blur) runs entirely in your browser. Drop in photos, and it detects faces using [face-api.js](https://github.com/vladmandic/face-api) (a TensorFlow.js-based library). It estimates ages and groups what it thinks is the same person across photos—so if you want to blur one kid in 30 photos, you select them once.
+The [Face Blur Tool](/face-blur) runs entirely in your browser. Drop in photos, and it detects faces using [face-api.js](https://github.com/vladmandic/face-api) (a TensorFlow.js-based library). It estimates ages and groups what it thinks is the same person across photos, so if you want to blur one kid in 30 photos, you select them once.
 
 The detection isn't perfect. Faces at odd angles get missed. The age estimation has maybe 5-10 years of variance. The person-matching sometimes groups different people who look similar. So every detected region is movable and resizable, and you can draw manual regions for anything the AI missed.
 

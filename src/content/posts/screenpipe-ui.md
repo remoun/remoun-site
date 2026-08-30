@@ -1,12 +1,12 @@
 ---
 title: "Building screenpipe-ui: A Community UI for Your AI Screen Memory"
 date: 2026-03-08
-description: "How I built a CLI, TUI, and web interface for screenpipe—sharing architecture decisions, publishing gotchas, and the framework-agnostic core design."
+description: "How I built a CLI, TUI, and web interface for screenpipe, sharing architecture decisions, publishing gotchas, and the framework-agnostic core design."
 tags: ["tools", "typescript", "react", "cli"]
 draft: false
 ---
 
-[screenpipe](https://github.com/screenpipe/screenpipe) turns your computer into a personal AI that knows everything you've done—screen captures, audio transcriptions, UI state—all local, all private. It's a powerful backend with 17k+ GitHub stars. What it didn't have, until recently, was a polished way to search and browse that memory from the terminal or the browser.
+[screenpipe](https://github.com/screenpipe/screenpipe) turns your computer into a personal AI that knows everything you've done: screen captures, audio transcriptions, UI state, all local, all private. It's a powerful backend with 17k+ GitHub stars. What it didn't have, until recently, was a polished way to search and browse that memory from the terminal or the browser.
 
 That's what [screenpipe-ui](https://github.com/remoun/screenpipe-ui) is: a community-built, open-source interface to screenpipe. Three interfaces, one codebase.
 
@@ -14,7 +14,7 @@ That's what [screenpipe-ui](https://github.com/remoun/screenpipe-ui) is: a commu
 
 ## Three Interfaces, One Codebase
 
-**CLI** — Quick terminal commands for power users and scripts:
+**CLI**: Quick terminal commands for power users and scripts:
 
 ```bash
 bunx @screenpipe-ui/cli search "meeting notes" --type audio --limit 10
@@ -22,9 +22,9 @@ bunx @screenpipe-ui/cli health
 bunx @screenpipe-ui/cli activity --today
 ```
 
-**TUI** — An interactive terminal app built with Ink (React for terminals). Tab between Search, Timeline, and Meetings. Use `j`/`k` to navigate, Enter to expand a result and read the full transcript.
+**TUI**: An interactive terminal app built with Ink (React for terminals). Tab between Search, Timeline, and Meetings. Use `j`/`k` to navigate, Enter to expand a result and read the full transcript.
 
-**Web** — A Vite + React + Tailwind SPA for the browser. Run it from the repo with `bun web`, build it, and deploy to Vercel or Netlify.
+**Web**: A Vite + React + Tailwind SPA for the browser. Run it from the repo with `bun web`, build it, and deploy to Vercel or Netlify.
 
 All three share the same core: business logic, state management, and formatting live in a framework-agnostic `@screenpipe-ui/core` package. The CLI calls it directly for instant startup. The TUI and Web both use React (Ink is just a React renderer for terminals) and share hooks via `@screenpipe-ui/react`. That shared architecture means search, health checks, and activity views behave the same everywhere.
 
@@ -32,7 +32,7 @@ All three share the same core: business logic, state management, and formatting 
 
 ## Architecture: Framework-Agnostic by Design
 
-A key decision was using **Zustand vanilla stores** (`createStore()`, not `create()`). The CLI doesn't load React at all—it uses `.getState()` imperatively. The TUI and Web subscribe via `useSyncExternalStore`, so they stay reactive. One store, multiple consumers.
+A key decision was using **Zustand vanilla stores** (`createStore()`, not `create()`). The CLI doesn't load React at all. It uses `.getState()` imperatively. The TUI and Web subscribe via `useSyncExternalStore`, so they stay reactive. One store, multiple consumers.
 
 The client is a custom `ScreenpipeUIClient` with raw `fetch`. The published `@screenpipe/js` SDK is aimed at pipes and plugins, not external apps, so we built a thin REST client that fits our needs.
 
@@ -44,7 +44,7 @@ Building screenpipe-ui involved a lot of iteration. Some of it was feature work;
 
 ### Making the TUI Usable
 
-Early on, the TUI truncated search results. You couldn't see the full contents of a transcript. We added Enter to open a detail view—simple, but it made the TUI actually useful for reading. Another fix: the type filter (OCR vs. audio) didn't update the result list until you ran a new search. Now it reflects immediately.
+Early on, the TUI truncated search results. You couldn't see the full contents of a transcript. We added Enter to open a detail view. Simple, but it made the TUI actually useful for reading. Another fix: the type filter (OCR vs. audio) didn't update the result list until you ran a new search. Now it reflects immediately.
 
 ### Base URL Everywhere
 
@@ -65,29 +65,29 @@ npm error code EUNSUPPORTEDPROTOCOL
 npm error Unsupported URL Type "workspace:": workspace:*
 ```
 
-The fix: use `bun pm pack` before `npm publish`. Bun produces tarballs with `workspace:*` resolved to real versions. npm never sees the protocol. We kept `npm publish` for [Trusted Publishing](https://docs.npmjs.com/generating-provenance-statements) (OIDC)—no long-lived tokens—and learned to run `bun update` whenever we bump versions so the lockfile stays in sync.
+The fix: use `bun pm pack` before `npm publish`. Bun produces tarballs with `workspace:*` resolved to real versions. npm never sees the protocol. We kept `npm publish` for [Trusted Publishing](https://docs.npmjs.com/generating-provenance-statements) (OIDC), with no long-lived tokens, and learned to run `bun update` whenever we bump versions so the lockfile stays in sync.
 
 ### CI/CD: Trusted Publishing and Gated Releases
 
-We set up a GitHub Actions workflow that publishes when the version changes. Only when the version field changes in `package.json`—not on every dependency update. A small check job compares the current version to the previous commit; if unchanged, we skip publish entirely.
+We set up a GitHub Actions workflow that publishes when the version changes. Only when the version field changes in `package.json`, not on every dependency update. A small check job compares the current version to the previous commit; if unchanged, we skip publish entirely.
 
 We use an **npm Environment** with required reviewers. Pushes to `main` trigger the workflow, but it waits for approval before publishing. Good for when version bumps land via PR and you don't want every merge to auto-publish.
 
 After a successful publish, the workflow creates and pushes a tag (e.g. `v0.1.4`). Release history stays tidy.
 
-To iterate on the workflow without bumping versions, we included `.github/workflows/publish.yml` in the trigger paths. Pushes that only change the workflow file will run the check job—which will skip publish—so you can test the pipeline safely.
+To iterate on the workflow without bumping versions, we included `.github/workflows/publish.yml` in the trigger paths. Pushes that only change the workflow file will run the check job (which will skip publish), so you can test the pipeline safely.
 
 ---
 
 ## Why the Web Package Is Private
 
-The CLI and TUI are tools you install and run; they're published to npm. The Web package is a Vite SPA that builds to static HTML/JS/CSS. It's meant to be run from the repo, built, and deployed to a static host—not `npm install`ed. Marking it `private: true` avoids accidental publishes and matches that usage. The published CLI and TUI packages mention the web UI in their descriptions and READMEs so users know it exists.
+The CLI and TUI are tools you install and run; they're published to npm. The Web package is a Vite SPA that builds to static HTML/JS/CSS. It's meant to be run from the repo, built, and deployed to a static host, not `npm install`ed. Marking it `private: true` avoids accidental publishes and matches that usage. The published CLI and TUI packages mention the web UI in their descriptions and READMEs so users know it exists.
 
 ---
 
 ## Testing and Contribution
 
-We require tests for all changes—new behavior, bug fixes, and refactors. Tests live per package in `__tests__` or `*.test.ts`. Before any PR, `bun test --recursive` must pass. It's in the README and in our agent guidelines.
+We require tests for all changes: new behavior, bug fixes, and refactors. Tests live per package in `__tests__` or `*.test.ts`. Before any PR, `bun test --recursive` must pass. It's in the README and in our agent guidelines.
 
 ---
 

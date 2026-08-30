@@ -1,6 +1,6 @@
 ---
 title: 'Ahwa: A table for the hard decisions'
-description: 'Open WebUI gave me a playground for personas one at a time. Ahwa lets them argue together — a self-hosted council of personas that deliberates on one dilemma, synthesizes, and gets out of the way.'
+description: 'Open WebUI gave me a playground for personas one at a time. Ahwa lets them argue together: a self-hosted council of personas that deliberates on one dilemma, synthesizes, and gets out of the way.'
 date: 2026-04-16
 tags: [ahwa, ai, self-hosting, yunohost, docker, sveltekit, typescript, open-source]
 ---
@@ -19,24 +19,24 @@ One persona at a time can't help with that. I wanted a council.
 
 The default council has six voices:
 
-- **The Elder** — what would your 60-year-old self thank you for, or regret.
-- **The Mirror** — are you drifting from your own stated values.
-- **The Engineer** — what are the constraints, the second-order effects, the leverage points.
-- **The Weaver** — who else is affected, whose voice is missing.
-- **The Instigator** — would you rather, in five years, tell the bolder story.
-- **The Dreamer** — are the options on the table even big enough.
+- **The Elder**: what would your 60-year-old self thank you for, or regret.
+- **The Mirror**: are you drifting from your own stated values.
+- **The Engineer**: what are the constraints, the second-order effects, the leverage points.
+- **The Weaver**: who else is affected, whose voice is missing.
+- **The Instigator**: would you rather, in five years, tell the bolder story.
+- **The Dreamer**: are the options on the table even big enough.
 
-The Dreamer landed late. After a review pass from a friend — _"It's missing a hopeful, a dreamer, a positive-only voice."_ — I pushed back that the Instigator already covered it. Looking at the roster with that framing, four of five voices were cautionary, and the Instigator only pushed boldness among options already on the table. The Dreamer challenges whether the options are big enough in the first place.
+The Dreamer landed late. After a review pass from a friend: _"It's missing a hopeful, a dreamer, a positive-only voice."_ I pushed back that the Instigator already covered it. Looking at the roster with that framing, four of five voices were cautionary, and the Instigator only pushed boldness among options already on the table. The Dreamer challenges whether the options are big enough in the first place.
 
 You can fork the council, write new personas, pick different models per council, drop in a community-contributed "Relationship Anarchist Council" or "DSA Praxis Council." The app is AGPL, ships zero telemetry, and runs as a single binary or Docker image on any box you already have.
 
-The opinionated councils work differently from the default. The default tries to be balanced — equal time for caution, ambition, structure, relationship, self-regard. The opinionated ones aren't. The RA council doesn't include monogamy-coded voices; the Praxis council doesn't include the liberal. You pick one precisely to carve out space from voices that already dominate the rest of your life at infinite volume. The "voice of capitalism" you're missing is the rest of your day.
+The opinionated councils work differently from the default. The default tries to be balanced: equal time for caution, ambition, structure, relationship, self-regard. The opinionated ones aren't. The RA council doesn't include monogamy-coded voices; the Praxis council doesn't include the liberal. You pick one precisely to carve out space from voices that already dominate the rest of your life at infinite volume. The "voice of capitalism" you're missing is the rest of your day.
 
 ---
 
 ## The shape of M1
 
-I time-boxed M0 to a checkpoint: prove the invariants hold in real code before investing in scaffolding. Once that worked — one deliberation, one table, typed SSE events from server to UI — M1 was "turn this into something a technically comfortable friend can self-host in 15 minutes."
+I time-boxed M0 to a checkpoint: prove the invariants hold in real code before investing in scaffolding. Once that worked (one deliberation, one table, typed SSE events from server to UI), M1 was "turn this into something a technically comfortable friend can self-host in 15 minutes."
 
 That meant: table history, council CRUD, a Markdown export, four providers (Anthropic / OpenAI / OpenRouter / Ollama), Docker packaging, and a preview-deploy pipeline so I could actually hit the thing from my phone.
 
@@ -48,7 +48,7 @@ Early on, I deployed a preview build to Fly and created a table. The UI rendered
 
 The server wasn't erroring. The orchestrator was happily iterating the async stream from the provider, collecting zero tokens, marking the turn complete, persisting empty text, moving on. The UI had no way to know.
 
-The fix was a one-line guard in the orchestrator — but the commit message was the lesson:
+The fix was a one-line guard in the orchestrator, but the commit message was the lesson:
 
 ```ts
 if (fullText === '') {
@@ -62,11 +62,11 @@ if (fullText === '') {
 
 > A provider that closes the stream without yielding anything is almost always a silent failure (rate-limit, bad model id, dead connection) rather than a model legitimately choosing to say nothing.
 
-Once that was in place, I hit the real cause: my default OpenRouter model (`meta-llama/llama-3.1-8b-instruct:free`) had been rate-limited into uselessness. Free-tier model IDs rotate. I moved the default to an NVIDIA Nemotron variant — NVIDIA subsidizes those to showcase NIM, so availability is steadier — and the symptom came back useful: if _that_ one gets retired, the error now names the provider and model instead of pretending everything is fine.
+Once that was in place, I hit the real cause: my default OpenRouter model (`meta-llama/llama-3.1-8b-instruct:free`) had been rate-limited into uselessness. Free-tier model IDs rotate. I moved the default to an NVIDIA Nemotron variant. NVIDIA subsidizes those to showcase NIM, so availability is steadier, and the symptom came back useful: if _that_ one gets retired, the error now names the provider and model instead of pretending everything is fine.
 
 ### Ollama as an "always available" fallback wasn't
 
-The same class of bug, one level up. My `detectDefaultProvider()` used to return `ollama` when no API key was set — the reasoning being "Ollama is local, no key needed, always there as a fallback." Except on a hosted VPS there is no local Ollama, and every call failed silently into the empty-response trap above.
+The same class of bug, one level up. My `detectDefaultProvider()` used to return `ollama` when no API key was set, the reasoning being "Ollama is local, no key needed, always there as a fallback." Except on a hosted VPS there is no local Ollama, and every call failed silently into the empty-response trap above.
 
 I changed it to only pick Ollama when `OLLAMA_BASE_URL` is set explicitly, and to throw on startup otherwise with a message naming the four env vars that would satisfy it. One commit smaller, surprising-behavior-free.
 
@@ -74,17 +74,17 @@ I changed it to only pick Ollama when `OLLAMA_BASE_URL` is set explicitly, and t
 
 This project is built largely by voice. I'm recovering from eye surgery and can't stare at a screen for long; the working loop is "describe the spec, let the agent write the test, run the test, confirm it fails for the right reason, write the code, confirm green, commit."
 
-I've long subscribed to the view that tests are executable documentation — they're how someone new to a codebase learns what the system does and doesn't do. But in practice, strict TDD often felt like writing the same thing twice. With Claude doing the mechanical work, the friction disappears: the test is the spec stated as observable behavior, the agent writes both the test and the implementation, and I just confirm red then green by voice. It's both easier to develop and easier to maintain — the documentation stays current because it's the thing that drives the code into existence.
+I've long subscribed to the view that tests are executable documentation: they're how someone new to a codebase learns what the system does and doesn't do. But in practice, strict TDD often felt like writing the same thing twice. With Claude doing the mechanical work, the friction disappears: the test is the spec stated as observable behavior, the agent writes both the test and the implementation, and I just confirm red then green by voice. It's both easier to develop and easier to maintain: the documentation stays current because it's the thing that drives the code into existence.
 
 The `CLAUDE.md` that governs the agent now has this line:
 
-> Adding tests _after_ the code has shipped is the anti-pattern this rule exists to prevent — if you find yourself doing that, treat it as a bug in your process, not a neutral alternative.
+> Adding tests _after_ the code has shipped is the anti-pattern this rule exists to prevent. If you find yourself doing that, treat it as a bug in your process, not a neutral alternative.
 
 The day I slipped and let a commit land with the tests written after, the commit after was "call out my own slip in CLAUDE.md so it doesn't happen again." The agent and I have the same rulebook now.
 
 ### A theme system without a webfont
 
-Zero telemetry is a product promise. That means no Google Fonts, no analytics, no crash reporter — not even anonymous. For typography I wanted a warm humanist serif on headings to lean into the coffeehouse metaphor, but I didn't want to ship a webfont.
+Zero telemetry is a product promise. That means no Google Fonts, no analytics, no crash reporter, not even anonymous. For typography I wanted a warm humanist serif on headings to lean into the coffeehouse metaphor, but I didn't want to ship a webfont.
 
 Modern CSS solved it twice over. For the palette, `light-dark()` collapses ~75 lines of duplicated dark-mode overrides into one declaration per token:
 
@@ -113,7 +113,7 @@ No bytes on the wire, no font-loading flash, no third-party request. Charter on 
 
 ## Where I'm headed
 
-M2 is shipping in pieces. The first piece is up: a public demo at [ahwa.app](https://ahwa.app) — rate-limited, ephemeral, walled off from any memory feature — so you can play with it, and self-host for memory functionality, privacy, and reliability. Still on the M2 list is a proper YunoHost package so the install path mirrors the Open WebUI one. M3 is the milestone I most want to write and most fear committing to: per-party **memory** (a markdown file per party, passed to every persona as context, editable by you), **two-party mediation** (one link per participant, each talks to the council privately, the synthesizer sees both sides), and a persona called **The Historian** who only becomes available once memory exists and whose job is to notice patterns across time.
+M2 is shipping in pieces. The first piece is up: a public demo at [ahwa.app](https://ahwa.app): rate-limited, ephemeral, walled off from any memory feature, so you can play with it, and self-host for memory functionality, privacy, and reliability. Still on the M2 list is a proper YunoHost package so the install path mirrors the Open WebUI one. M3 is the milestone I most want to write and most fear committing to: per-party **memory** (a markdown file per party, passed to every persona as context, editable by you), **two-party mediation** (one link per participant, each talks to the council privately, the synthesizer sees both sides), and a persona called **The Historian** who only becomes available once memory exists and whose job is to notice patterns across time.
 
 For now, M1 has shipped, the demo is live at https://ahwa.app, and the code is [on GitHub](https://github.com/remoun/ahwa). Try it if you want a council around your own table.
 

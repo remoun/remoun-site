@@ -26,7 +26,7 @@ Bill Perkins' book _Die With Zero_ reframes the question entirely. Instead of "h
 
 The core insights that hit me:
 
-**Experiences have "memory dividends."** A trip you take at 35 pays returns for 50 years in memories. The same trip at 85—if you can even take it—pays returns for maybe 5 years. Front-load experiences.
+**Experiences have "memory dividends."** A trip you take at 35 pays returns for 50 years in memories. The same trip at 85, if you can even take it, pays returns for maybe 5 years. Front-load experiences.
 
 **Give while living.** Helping a sibling in their 30s when they're building a career matters more than leaving them an inheritance in their 60s when they're already established. Give when you can see the impact.
 
@@ -38,7 +38,7 @@ This felt like permission I didn't know I needed.
 
 I'm an engineer. When I have a fuzzy problem, I build a model. So I created a spreadsheet that tracks portfolio value from now through age 100, accounting for:
 
-- Different spending levels across life phases (the "spending smile"—high early, lower in your 60s-70s, higher again for healthcare in your 80s)
+- Different spending levels across life phases (the "spending smile": high early, lower in your 60s-70s, higher again for healthcare in your 80s)
 - Side income from part-time work (I don't plan to fully stop working right away, just work differently)
 - Giving that phases out as I age (front-loaded toward family and causes)
 - Social Security with a haircut for potential future cuts
@@ -56,7 +56,7 @@ The questions shifted:
 
 - Not "can I afford this trip?" but "what experiences am I missing by not taking it?"
 - Not "how much should I save for giving?" but "who can I help now, while it matters?"
-- Not "what's my safe withdrawal rate?" but "what's my _deployment_ rate—spending plus giving as a percentage of resources?"
+- Not "what's my safe withdrawal rate?" but "what's my _deployment_ rate: spending plus giving as a percentage of resources?"
 
 ## The Calculator
 
@@ -68,7 +68,7 @@ The side-by-side visualization makes the tradeoff visceral. With the same starti
 - How much _more_ lifetime giving becomes possible
 - How much _less_ you leave "wasted" at the end
 
-It's not financial advice—reality has way more variables than any model captures. But it's a useful thinking tool for anyone wrestling with these questions.
+It's not financial advice. Reality has way more variables than any model captures. But it's a useful thinking tool for anyone wrestling with these questions.
 
 ## What I'm Actually Changing
 
