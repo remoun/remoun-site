@@ -10,7 +10,9 @@ backend:
 # Local development: uncomment to test without auth
 # local_backend: true
 
-# Media files
+# Media files for posts and projects.
+# The love page's photos live in public/love-media and are served only from
+# remoun.love; do not point the CMS at that folder.
 media_folder: public/images
 public_folder: /images
 

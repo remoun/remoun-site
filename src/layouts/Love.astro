@@ -10,8 +10,12 @@ interface Props {
 const fm = Astro.props.frontmatter ?? {};
 const title = fm.title ?? Astro.props.title ?? 'Date Remoun';
 const description = fm.description ?? Astro.props.description ?? 'Date Remoun';
-const pageUrl = new URL(Astro.url.pathname, Astro.site);
-const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
+// This page is served on its own hostname (see functions/_middleware.js).
+// Every absolute URL it emits stays on that host so link previews, canonical
+// URLs and the OG image never point back at remoun.me.
+const LOVE_ORIGIN = 'https://remoun.love';
+const pageUrl = new URL('/', LOVE_ORIGIN);
+const ogImage = new URL('/love-media/profile-rainbow.jpg', LOVE_ORIGIN);
 ---
 
 <!DOCTYPE html>
@@ -20,7 +24,7 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content={description} />
-  <meta name="robots" content="noindex" />
+  <meta name="robots" content="noindex, noarchive" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
@@ -828,7 +832,7 @@ const ogImage = new URL('/images/profile-rainbow.jpg', Astro.site);
 <body class="love-body">
   <div class="container">
     <header class="love-header">
-      <a href="https://remoun.me" class="logo">Remoun</a>
+      <a href="/" class="logo">Remoun</a>
       <nav>
         <a href="#who-i-am">Who</a>
         <a href="#what-im-looking-for">Looking</a>

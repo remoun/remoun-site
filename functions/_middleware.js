@@ -25,6 +25,13 @@ export async function onRequest(context) {
     if (path.startsWith('/love/')) {
       return Response.redirect(`https://remoun.love/${path.slice(6)}`, 301);
     }
+
+    // The love page's photos are served only from remoun.love. Redirecting
+    // here would bridge the two hosts, so this is a hard 404: the personal
+    // photos are not reachable from the professional domains at all.
+    if (path.startsWith('/love-media/')) {
+      return new Response('Not found', { status: 404 });
+    }
   }
 
   // Load the build-time list of blog post slugs for routing decisions.
@@ -74,6 +81,23 @@ export async function onRequest(context) {
 
   // 2. Handle remoun.love
   if (host === 'remoun.love') {
+    // This host is entirely off-limits to crawlers. Serving it here rather
+    // than from public/robots.txt keeps the remoun.me robots.txt from naming
+    // any of this, which would itself be a signpost.
+    if (path === '/robots.txt') {
+      return new Response('User-agent: *\nDisallow: /\n', {
+        headers: {
+          'content-type': 'text/plain; charset=utf-8',
+          'x-robots-tag': 'noindex, noarchive',
+        },
+      });
+    }
+
+    // Legacy media path, kept so previously shared link previews still resolve.
+    if (path.startsWith('/images/')) {
+      return Response.redirect(`https://remoun.love/love-media/${path.slice(8)}`, 301);
+    }
+
     // Canonicalize /love/* to the root version
     if (path.startsWith('/love/')) {
       return Response.redirect(`https://remoun.love/${path.slice(6)}`, 301);
@@ -84,12 +108,18 @@ export async function onRequest(context) {
 
     // Serve root as /love/ page
     if (path === '/') {
-      return context.env.ASSETS.fetch(new Request(new URL('/love/', url), request));
+      const res = await context.env.ASSETS.fetch(
+        new Request(new URL('/love/', url), request)
+      );
+      const page = new Response(res.body, res);
+      page.headers.set('x-robots-tag', 'noindex, noarchive');
+      return page;
     }
 
-    // Everything else on remoun.love → redirect to remoun.me
+    // Everything else on remoun.love is a dead end. Bouncing stray paths to
+    // remoun.me would tell any visitor that the two hosts are one site.
     if (!path.includes('.')) {
-      return Response.redirect(`https://remoun.me${path}`, 301);
+      return new Response('Not found', { status: 404 });
     }
   }
 

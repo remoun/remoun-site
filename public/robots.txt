@@ -1,0 +1,6 @@
+# remoun.me / remoun.blog
+# remoun.love serves its own robots.txt from functions/_middleware.js.
+
+User-agent: *
+Disallow: /admin
+Allow: /
