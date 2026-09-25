@@ -68,5 +68,8 @@ draft: false
 
 ## Deployment
 
+- Push to main with `bun run ship`, not `git push`: a ruleset requires a passing `smoke-test` status, which the script posts after testing the commit in a clean worktree
+- `bun run ship --dry-run` runs those tests without pushing anything
+- Node for local ships, CI, and Cloudflare builds comes from `.node-version`
 - Push to main → Cloudflare Pages builds automatically
 - Preview branches available at [branch].remoun-site.pages.dev
