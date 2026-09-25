@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "smoke-test": "astro build && node scripts/smoke-test.mjs"
+    "smoke-test": "astro build && node scripts/smoke-test.mjs",
+    "ship": "scripts/ship.sh"
   },
   "dependencies": {
     "@astrojs/mdx": "^5.0.2",
